@@ -1,0 +1,34 @@
+<!--@unless ($dish->reviews->isEmpty())
+                            <h5>Reviews:</h5>
+
+                            <!-- LIST OF REVIEWS -->
+                            <!--<div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Review ID</th>
+                                                <th>Author</th>
+                                                <th>Title</th>
+                                                <th>Body</th>
+                                                <th>Date</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach ($dish->reviews as $review)
+                                                <tr>
+                                                    <th scope="row">{{ $review->id }}</th>
+                                                    <td>{{ $review->user_id }}</td>
+                                                    <td>{{ $review->title }}</td>
+                                                    <td>{{ $review->body }}</td>
+                                                    <td>{{ $review->created_at }}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /LIST OF REVIEWS -->
+                        <!--@endunless-->

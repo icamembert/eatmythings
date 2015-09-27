@@ -1,0 +1,121 @@
+<div class="row">
+    <div class="col-md-12">
+        @if ($user->isMe())
+            <h2>My Dishes</h2>
+        @else
+            <h2>{{ $user->name }}'s Dishes</h2>
+        @endif
+        
+            <p>
+                @if ($user->isMe())
+                    Here's the list of dishes you created.
+                @else
+                    Here's the list of dishes {{ $user->name }} created.
+                @endif
+            </p>
+            @if ($user->isMe())
+                <p>
+                    <strong>How about adding a new one?</strong>
+                    <a href="{{ action('DishesController@create') }}" class="btn btn-primary">Add a Dish</a>
+                </p>
+            @else
+                @unless ($user->isChef())
+                <p>
+                    <strong>How about becoming a chef yourself?</strong>
+                    <a href="{{ action('DishesController@create') }}" class="btn btn-primary">Suggest a Dish</a>
+                </p>
+                @endunless
+            @endif
+            <h5>Dishes:</h5>
+
+            <!-- LIST OF DISHES -->
+            <div class="row">
+                
+                    
+            <section id="portfolio">
+                
+
+                    <ul class="nav nav-pills isotope-filter isotope-filter" data-sort-id="isotope-list" data-option-key="filter">
+                        <li data-option-value="*" class="active"><a href="#">A La Carte</a></li>
+                        <li data-option-value=".set1"><a href="#">Set 1</a></li>
+                        <li data-option-value=".set2"><a href="#">Set 2</a></li>
+                        <li data-option-value=".set3"><a href="#">Set 3</a></li>
+                    </ul>
+
+
+                    <div class="row">
+
+                        <ul class="sort-destination isotope" data-sort-id="isotope-list">
+
+                            @foreach ($user->dishes as $dish)
+                                @if ($dish->price < 5)
+                                <li class="isotope-item col-sm-6 col-md-3 set1"><!-- item -->
+                                    <div class="item-box">
+                                        <figure>
+                                            <a class="item-hover" href="{{ action('DishesController@show', array('dishes' => $dish, 'isBeingOrdered' => 0)) }}">
+                                                <span class="overlay color2"></span>
+                                                <span class="inner">
+                                                    <span class="block fa fa-plus fsize20"></span>
+                                                    <strong>SEE</strong> MORE
+                                                </span>
+                                            </a>
+                                            <img class="img-responsive" src="{{ asset('/userdata/' . $user->id . '/dishes/' . $dish->id . '/picture_md.jpg') }}" width="260" height="260" alt="">
+                                        </figure>
+                                        <div class="item-box-desc">
+                                            <h4>{{ $dish->name }}</h4>
+                                            <small class="styleColor">{{ $dish->price }}</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                @elseif ($dish->price < 8)
+                                    <li class="isotope-item col-sm-6 col-md-3 set2"><!-- item -->
+                                    <div class="item-box">
+                                        <figure>
+                                            <a class="item-hover" href="{{ action('DishesController@show', array('dishes' => $dish, 'isBeingOrdered' => 0)) }}">
+                                                <span class="overlay color2"></span>
+                                                <span class="inner">
+                                                    <span class="block fa fa-plus fsize20"></span>
+                                                    <strong>SEE</strong> MORE
+                                                </span>
+                                            </a>
+                                            <img class="img-responsive" src="{{ asset('/userdata/' . $user->id . '/dishes/' . $dish->id . '/picture_md.jpg') }}" width="260" height="260" alt="">
+                                        </figure>
+                                        <div class="item-box-desc">
+                                            <h4>{{ $dish->name }}</h4>
+                                            <small class="styleColor">{{ $dish->price }}</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                @else
+                                    <li class="isotope-item col-sm-6 col-md-3 set3"><!-- item -->
+                                    <div class="item-box">
+                                        <figure>
+                                            <a class="item-hover" href="{{ action('DishesController@show', array('dishes' => $dish, 'isBeingOrdered' => 0)) }}">
+                                                <span class="overlay color2"></span>
+                                                <span class="inner">
+                                                    <span class="block fa fa-plus fsize20"></span>
+                                                    <strong>SEE</strong> MORE
+                                                </span>
+                                            </a>
+                                            <img class="img-responsive" src="{{ asset('/userdata/' . $user->id . '/dishes/' . $dish->id . '/picture_md.jpg') }}" width="260" height="260" alt="">
+                                        </figure>
+                                        <div class="item-box-desc">
+                                            <h4>{{ $dish->name }}</h4>
+                                            <small class="styleColor">{{ $dish->price }}</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                @endif                                
+                            @endforeach
+                        </ul>
+
+                    </div>
+
+                
+            </section>
+        
+
+</div>
+             <!-- /LIST OF DISHES -->
+    </div>
+</div>
