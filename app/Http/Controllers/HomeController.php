@@ -88,4 +88,10 @@ class HomeController extends Controller {
 
 	}
 
+	public function becomeAChef() {
+
+		return view('become-a-chef');
+
+	}
+
 }

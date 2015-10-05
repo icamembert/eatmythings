@@ -67,8 +67,8 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>-->
 <script src="{{ asset('/assets/js/all.js') }}"></script>
 <script src="{{ asset('js/Jcrop.js') }}"></script>
-<!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
---><script src="{{ asset('js/bootstrap-rating.min.js') }}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+<script src="{{ asset('js/bootstrap-rating.min.js') }}"></script>
 
 @yield('footer')
 
@@ -77,8 +77,8 @@
 </script>
 <script src="{{ asset('js/jquery.dotdotdot.min.js') }}"></script>
 <!--<script src="https://cdnjs.cloudfare.com/ajax/libs/0.13.3/react.js"></script>
-<script src="https://cdnjs.cloudfare.com/ajax/libs/0.13.3/JSXTransformer.js"></script>
--->
+<script src="https://cdnjs.cloudfare.com/ajax/libs/0.13.3/JSXTransformer.js"></script>-->
+
 <script>
     $('.ellipsis').dotdotdot();
     //$(document).ready(function() {

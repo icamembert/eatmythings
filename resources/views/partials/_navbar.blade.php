@@ -104,8 +104,18 @@
         <!-- Top Nav -->
         <div class="navbar-collapse nav-main-collapse collapse pull-right">
             <nav class="nav-main mega-menu">
-                <ul class="nav nav-pills nav-main scroll-menu" id="topMain">                    
+                <ul class="nav nav-pills nav-main scroll-menu" id="topMain" style="display: flex; align-items: center;">                    
                     
+                    <li class="nav">
+                        <div class="pull-right nav hidden-xs">
+                            <i class="fa fa-star"></i>
+                            <a href="{{ action('Auth\AuthController@getRegister') }}"><strong>Register</strong></a>
+                            <i class="fa fa-star"></i>
+                            <a href="{{ action('HomeController@becomeAChef') }}"><strong>Become a chef</strong></a>
+                            <i class="fa fa-star"></i>
+                        </div>
+                    </li>
+                    <!--
                     <li class="dropdown">
                         <a class="dropdown-toggle" href="{{ action('HomeController@index') }}">
                             <b>{{ trans('strings.navMenuTitle') }}</b> <i class="fa fa-angle-down"></i>
@@ -117,18 +127,18 @@
                             <li class="divider"></li>
                             <li><a href="realestate-home.html">{{ trans('strings.navContact') }}</a></li>
                         </ul>
-                    </li>
+                    </li>-->
 
-                    <!-- GLOBAL SEARCH -->
+                    <!-- GLOBAL SEARCH 
                     <li class="search">
-                        <!-- search form -->
+                        <!-- search form 
                         <form method="get" action="#" class="input-group pull-right">
                             <input type="text" class="form-control" name="k" id="k" value="" placeholder="{{ trans('strings.navSearch') }}">
 									<span class="input-group-btn">
 										<button class="btn btn-primary notransition"><i class="fa fa-search"></i></button>
 									</span>
                         </form>
-                        <!-- /search form -->
+                        <!-- /search form 
                     </li>
                     <!-- /GLOBAL SEARCH -->
 
