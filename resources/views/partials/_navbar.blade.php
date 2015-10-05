@@ -78,8 +78,8 @@
 
         <!-- LINKS -->
         <div class="pull-right nav hidden-xs">
-            <a href="page-about-us.html"><i class="fa fa-angle-right"></i> {{ trans('strings.navAbout') }}</a>
-            <a href="contact-us.html"><i class="fa fa-angle-right"></i> {{ trans('strings.navContact') }}</a>
+            <a href="{{ action('HomeController@aboutUs') }}"><i class="fa fa-angle-right"></i> {{ trans('strings.navAbout') }}</a>
+            <a href="{{ action('HomeController@contactUs') }}"><i class="fa fa-angle-right"></i> {{ trans('strings.navContact') }}</a>
         </div>
         <!-- /LINKS -->
 

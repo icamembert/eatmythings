@@ -76,4 +76,16 @@ class HomeController extends Controller {
 		return view('search', compact('dishesForMap'));
 	}
 
+	public function aboutUs() {
+
+		return view('about-us');
+	
+	}
+
+	public function contactUs() {
+
+		return view('contact-us');
+
+	}
+
 }
