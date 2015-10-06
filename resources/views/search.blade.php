@@ -35,7 +35,6 @@
 
 		                          <div class="input-group">
 		                              <input id="pac-input" type="text" class="form-control" name="s" id="s" value="" placeholder="{{ trans('strings.homeSearch3') }}" />
-		                              <!--<div id="map-canvas" style="height: 400px; width: 100%; margin: 0; padding: 0;"></div>-->
 		                              <span class="input-group-btn">
 		                                <a id="searchDishesButton" class="btn btn-primary" href="/search/"><i class="fa fa-search"></i></a>
 		                              </span>
@@ -151,7 +150,9 @@
 @endsection
 
 @section('afterScripts')
+
     <script>
+
         $('#advancedSearch').hide();
         $('#advancedSearchButton').click(function() {
             $(this).hide();
@@ -209,13 +210,23 @@
 		    service.getDetails(request, function(place, status) {
 		    if (status == google.maps.places.PlacesServiceStatus.OK) {
 		      var marker = new google.maps.Marker({
-		        map: map,
+		        //map: map,
 		        position: place.geometry.location
 		      });
-		      google.maps.event.addListener(marker, 'click', function() {
-		        infowindow.setContent("<div class='text-center'>{{ $dishForMap->name }} <br/> <img src='{{ asset('userdata/' . $dishForMap->user_id . '/dishes/' . $dishForMap->id . '/' . 'picture_sm.jpg') }}' alt='Dish Picture' /></div>");
-		        infowindow.open(map, this);
-		      });
+		      var markerLat = marker.getPosition().lat();
+		      var markerLng = marker.getPosition().lng();
+
+		      var markerLoc = new google.maps.LatLng(markerLat, markerLng);
+
+		      var distanceInKm = google.maps.geometry.spherical.computeDistanceBetween(searchLocation, markerLoc) / 1000;
+
+		      if (distanceInKm < 50) {
+		      	marker.setMap(map);
+		      	google.maps.event.addListener(marker, 'click', function() {
+			        infowindow.setContent("<div class='text-center'>{{ $dishForMap->name }} <br/> <img src='{{ asset('userdata/' . $dishForMap->user_id . '/dishes/' . $dishForMap->id . '/' . 'picture_sm.jpg') }}' alt='Dish Picture' /></div>");
+			        infowindow.open(map, this);
+			      });
+		      }
 		    }
 		  });
 		  @endforeach
@@ -288,62 +299,10 @@
 		      window.alert('Geocoder failed due to: ' + status);
 		    }
 		  });
-
-          
-
-		  
-		  
-
-		  
-
 		  
 		}
 
 		google.maps.event.addDomListener(window, 'load', initialize);
-
-		/*var map2;
-		var infowindow2;
-
-		function initialize2() {
-		  var pyrmont = new google.maps.LatLng(-33.8665433, 151.1956316);
-
-		  map2 = new google.maps.Map(document.getElementById('map-canvas2'), {
-		    center: pyrmont,
-		    zoom: 15
-		  });
-
-		  var request = {
-		    location: pyrmont,
-		    radius: 500 //,
-		    //types: ['store']
-		  };
-		  infowindow2 = new google.maps.InfoWindow();
-		  //var service = new google.maps.places.PlacesService(map2);
-		  //service.nearbySearch(request, callback);
-		}
-
-		function callback(results, status) {
-		  if (status == google.maps.places.PlacesServiceStatus.OK) {
-		    for (var i = 0; i < results.length; i++) {
-		      createMarker(results[i]);
-		    }
-		  }
-		}
-
-		function createMarker(place) {
-		  var placeLoc = place.geometry.location;
-		  var marker = new google.maps.Marker({
-		    map: map2,
-		    position: place.geometry.location
-		  });
-
-		  google.maps.event.addListener(marker, 'click', function() {
-		    infowindow.setContent(place.name);
-		    infowindow.open(map2, this);
-		  });
-		}
-
-		google.maps.event.addDomListener(window, 'load', initialize2);*/
 
     </script>
 

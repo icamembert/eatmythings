@@ -67,7 +67,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>-->
 <script src="{{ asset('/assets/js/all.js') }}"></script>
 <script src="{{ asset('js/Jcrop.js') }}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places,geometry"></script>
 <script src="{{ asset('js/bootstrap-rating.min.js') }}"></script>
 
 @yield('footer')

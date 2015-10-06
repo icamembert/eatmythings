@@ -106,6 +106,12 @@
             <nav class="nav-main mega-menu">
                 <ul class="nav nav-pills nav-main scroll-menu" id="topMain" style="display: flex; align-items: center;">                    
                     
+                    <a target="_blank" href="https://www.facebook.com/eatmythings" class="social fa fa-facebook"></a>
+                <a target="_blank" href="https://twitter.com/@eatmythings" class="social fa fa-twitter"></a>
+                <a target="_blank" href="https://plus.google.com/b/107520321723168003266/107520321723168003266" class="social fa fa-google-plus"></a>
+                <a target="_blank" href="https://www.pinterest.com/eatmythings" class="social fa fa-pinterest"></a>
+                <a target="_blank" href="https://www.youtube.com/channel/UC1OJwcdCYp0YFYxGPi8-YIg" class="social fa fa-youtube"></a>
+
                     <li class="nav">
                         <div class="pull-right nav hidden-xs">
                             <i class="fa fa-star"></i>

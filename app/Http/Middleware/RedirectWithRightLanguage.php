@@ -17,27 +17,30 @@ class RedirectWithRightLanguage {
 	{
 		$location = GeoIPFacade::getLocation();
 
-        if ($location['isoCode'] == 'FR')
-        {
+                if ($request->method() !== 'POST') {
+                        if ($location['isoCode'] == 'FR')
+                        {
 
-        	if ( ! ($request->is('fr') || $request->is('fr/*') || $request->is('kr') || $request->is('kr/*') || $request->is('en') || $request->is('en/*')) )
-        		return redirect(LaravelLocalization::getLocalizedURL('fr'));
+                                if ( ! ($request->is('fr') || $request->is('fr/*') || $request->is('kr') || $request->is('kr/*') || $request->is('en') || $request->is('en/*')) )
+                                        return redirect(LaravelLocalization::getLocalizedURL('fr'));
 
-        } else if ($location['isoCode'] == 'KR')
-        {
+                        } else if ($location['isoCode'] == 'KR')
+                        {
 
-        	if ( ! ($request->is('kr') || $request->is('kr/*') || $request->is('fr') || $request->is('fr/*') || $request->is('en') || $request->is('en/*')) )
-        		return redirect(LaravelLocalization::getLocalizedURL('kr'));
+                                if ( ! ($request->is('kr') || $request->is('kr/*') || $request->is('fr') || $request->is('fr/*') || $request->is('en') || $request->is('en/*')) )
+                                        return redirect(LaravelLocalization::getLocalizedURL('kr'));
 
-        } else
-        {
+                        } else
+                        {
 
-        	if ( ! ($request->is('en') || $request->is('en/*') || $request->is('fr') || $request->is('fr/*') || $request->is('kr') || $request->is('kr/*')) )
-        		return redirect(LaravelLocalization::getLocalizedURL('en'));
+                                if ( ! ($request->is('en') || $request->is('en/*') || $request->is('fr') || $request->is('fr/*') || $request->is('kr') || $request->is('kr/*')) )
+                                        return redirect(LaravelLocalization::getLocalizedURL('en'));
+
+                        }
+                }
+
+                return $next($request);
 
         }
-
-		return $next($request);
-	}
 
 }
