@@ -21,9 +21,9 @@
             </header>
 
 
-            <section class="container white-row">
+            <section class="container">
 
-                <div class="row">
+                <div class="row white-row">
 
                     <div class="col-md-12">
 
@@ -96,48 +96,50 @@
 		                        </section>
 		                    </div>
 		                </div>
-
-		                <div class="row">
-		                  <div class="col-md-12">
-		                    <div id="map-canvas" style="height: 400px; width: 100%; margin: 0; padding: 0;"></div>
-		                  </div>
-		                </div>
-
                 	</div>
-
                 </div>
 
-
-                <div class="row">
-
-                    @foreach ($dishesForMap as $dishForMap)
-                        <div class="col-sm-6 col-md-3"><!-- item -->
-                            <div class="item-box fixed-box">
-                                <figure>
-                                    <a class="item-hover" href="{{ action('DishesController@show', array('dishes' => $dishForMap, 'isBeingOrdered' => 0)) }}">
-                                        <span class="overlay color2"></span>
-    										<span class="inner">
-    											<span class="block fa fa-plus fsize20"></span>
-    											{!! trans('strings.homeBestDishes2') !!}
-    										</span>
-                                    </a>
-                                    <a href="{{ action('DishesController@show', array('dishes' => $dishForMap, 'isBeingOrdered' => 1)) }}" class="btn btn-primary add_to_cart"><i class="fa fa-shopping-cart"></i> {{ trans('strings.homeBestDishes3') }}</a>
-                                    <img class="img-responsive" src="{{ asset('userdata/' . $dishForMap->user_id . '/dishes/' . $dishForMap->id . '/' . 'picture_md.jpg') }}" width="100" height="100" alt="">
-                                </figure>
-                                <div class="item-box-desc">
-                                    <h4>{{ $dishForMap->name }}</h4>
-                                    <small class="styleColor">{{ $dishForMap->price }}</small>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-
+                <div class="divider styleColor"><!-- divider -->
+                    <i class="fa fa-chevron-down"></i>
                 </div>
 
-                <div class="row">
-                	{!! $dishesForMap->render() !!}
-                </div>
+                <div class="row white-row">
+	                <div class="row">
 
+	                    @foreach ($dishesForMap as $dishForMap)
+	                        <div class="col-sm-6 col-md-3"><!-- item -->
+	                            <div class="item-box fixed-box">
+	                                <figure>
+	                                    <a class="item-hover" href="{{ action('DishesController@show', array('dishes' => $dishForMap, 'isBeingOrdered' => 0)) }}">
+	                                        <span class="overlay color2"></span>
+	    										<span class="inner">
+	    											<span class="block fa fa-plus fsize20"></span>
+	    											{!! trans('strings.homeBestDishes2') !!}
+	    										</span>
+	                                    </a>
+	                                    <a href="{{ action('DishesController@show', array('dishes' => $dishForMap, 'isBeingOrdered' => 1)) }}" class="btn btn-primary add_to_cart"><i class="fa fa-shopping-cart"></i> {{ trans('strings.homeBestDishes3') }}</a>
+	                                    <img class="img-responsive" src="{{ asset('userdata/' . $dishForMap->user_id . '/dishes/' . $dishForMap->id . '/' . 'picture_md.jpg') }}" width="100" height="100" alt="">
+	                                </figure>
+	                                <div class="item-box-desc">
+	                                    <h4>{{ $dishForMap->name }}</h4>
+	                                    <small class="styleColor">{{ $dishForMap->price }}</small>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    @endforeach
+
+	                </div>
+
+	                <div class="row">
+	                	{!! $dishesForMap->render() !!}
+	                </div>
+
+	                <div class="row">
+	                  <div class="col-md-12">
+	                    <div id="map-canvas" style="height: 400px; width: 100%; margin: 0; padding: 0;"></div>
+	                  </div>
+	                </div>
+            	</div>
 
             </section>
 
@@ -173,7 +175,7 @@
         function initialize() {
 
           var geocoder = new google.maps.Geocoder;
-          var centerPlaceId = '{{ $dishesForMap->first()->city_google_place_id }}';
+          var centerPlaceId = '{{ $searchedGooglePlaceId }}'; //$dishesForMap->first()->city_google_place_id;
 
           geocoder.geocode({'placeId': centerPlaceId}, function(results, status) {
 		    if (status === google.maps.GeocoderStatus.OK) {
@@ -210,7 +212,6 @@
 		    service.getDetails(request, function(place, status) {
 		    if (status == google.maps.places.PlacesServiceStatus.OK) {
 		      var marker = new google.maps.Marker({
-		        //map: map,
 		        position: place.geometry.location
 		      });
 		      var markerLat = marker.getPosition().lat();

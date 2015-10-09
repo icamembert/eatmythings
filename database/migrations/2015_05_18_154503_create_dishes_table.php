@@ -18,11 +18,11 @@ class CreateDishesTable extends Migration {
 		{
 			$table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->decimal('price', 8, 2);
+            $table->double('price', 8, 2);
             $table->string('currency');
             $table->string('name');
             $table->text('description');
-            $table->decimal('rating', 3, 1);
+            $table->double('rating', 2, 1);
 			$table->timestamps();
 
             $table->foreign('user_id')

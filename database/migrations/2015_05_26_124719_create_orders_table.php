@@ -16,7 +16,7 @@ class CreateOrdersTable extends Migration {
 		{
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->decimal('price', 8, 2);
+            $table->double('price', 8, 2);
             $table->string('currency');
             $table->integer('type_id')->unsigned();
             $table->string('comment');
