@@ -147,13 +147,17 @@
                 <div class="col-md-4 col-md-offset-4">
                     <p class="nomargin">{{ trans('strings.homeSearch2') }}</p>
 
-                      <div class="input-group">
-                          <input id="pac-input" type="text" class="form-control" name="s" id="s" value="" placeholder="{{ trans('strings.homeSearch3') }}" />
-                          <span class="input-group-btn">
-                            <a id="searchDishesButton" class="btn btn-primary"><i class="fa fa-search"></i></a>
-                          </span>
-                      </div>
+                      {!! Form::open(['id' => 'searchForm', 'url' => 'search', 'method' => 'GET']) !!}
 
+                        <div class="input-group">
+                            <input id="pac-input" type="text" class="form-control" placeholder="{{ trans('strings.homeSearch3') }}" />
+                            {!! Form::input('hidden', 'googlePlaceId', null, ['id' => 'googlePlaceId', 'class' => 'form-control']) !!}
+                            <span class="input-group-btn">
+                              <a id="searchDishesButton" class="btn btn-primary"><i class="fa fa-search"></i></a>
+                            </span>
+                        </div>
+
+                      {!! Form::close() !!}
                 </div>
             </div>
           </div>
@@ -261,13 +265,13 @@
 
       var linkToFirstPrediction = function(predictions) {
         if (predictions) {
-          $('#searchDishesButton').prop('href', '/search/' + predictions[0].place_id);
+          $('#googlePlaceId').val(predictions[0].place_id);
         }
       }
 
       var linkToFirstPredictionAndSubmit = function(predictions) {
         if (predictions) {
-          $('#searchDishesButton').prop('href', '/search/' + predictions[0].place_id);
+          $('#googlePlaceId').val(predictions[0].place_id);
           $('#searchDishesButton')[0].click();
         }
       }
@@ -277,7 +281,7 @@
         var place = autocomplete.getPlace();
         
         if (place.geometry) {
-          $('#searchDishesButton').prop('href', '/search/' + place.place_id);
+          $('#googlePlaceId').val(predictions[0].place_id);
           $('#searchDishesButton')[0].click();
         } else {
           autocompleteService.getQueryPredictions({input: input.value}, linkToFirstPredictionAndSubmit);
@@ -287,8 +291,13 @@
 
       $('#pac-input').mouseleave(function() {
 
-        autocompleteService.getQueryPredictions({input: input.value}, linkToFirstPrediction);
+        if ($('#pac-input').val())
+          autocompleteService.getQueryPredictions({input: input.value}, linkToFirstPrediction);
 
+      });
+
+      $('#searchDishesButton').click(function() {
+        $('#searchForm').submit();
       });
 
     }
