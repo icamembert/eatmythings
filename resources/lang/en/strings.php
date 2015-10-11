@@ -252,6 +252,33 @@ return [
     "order10" => "Place Order",
     "order11" => "Update Order",
 
-    "searchDishes1" => "Search Dishes"
+    // ******** Search Page ********
+
+    "searchSection1Header" => "Search Dishes",
+    "searchCityTextLabel" => "Find great food near you:",
+    "searchCityTextPlaceholder" => "Type in your location (e.g. 'Paris, France')",
+    "searchAdvancedSearchLink" => "Advanced Search",
+    "searchKeywordTextLabel" => "Keyword:",
+    "searchKeywordTextPlaceholder" => "Type in what you're looking for (e.g. 'chicken')",
+    "searchRadiusSelectLabel" => "Within:",
+    "searchRatingHiddenLabel" => "Rating above:",
+    "searchPriceNumberLabel" => "Price below:",
+    "searchLeoSearchingStickerAlt" => "Eat My Things",
+    "searchAdvancedSearchCancelLink" => "Cancel",
+
+    "searchSection2Header" => "Search Results",
+    "searchNumberOfResultsFound" => "results found!",
+    "searchLeoHappySearchStickerAlt" => "Eat My Things",
+    "searchSortBySelectLabel" => "Sort by:",
+    "searchSortBySelectOption1" => "Best rating",
+    "searchSortBySelectOption2" => "Best price",
+    "searchResultsPerPageSelectLabel" => "Results per page:",
+    "searchNoResults" => "Sorry, no results were found.",
+    "searchDishResultsPictureAlt" => "Eat My Things",
+    "searchDishResultsPictureSeeMoreLink" => "See More",
+    "searchDishResultsPictureOrderLink" => "Order"
+
+
+
 
 ];

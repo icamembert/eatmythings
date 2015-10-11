@@ -252,6 +252,33 @@ return [
     "order10" => "Place Order",
     "order11" => "Update Order",
 
-    "searchDishes1" => "Chercher des plats"
+    // ******** Search Page ********
+
+    "searchSection1Header" => "Chercher des plats",
+    "searchCityTextLabel" => "Trouvez des plats délicieux près de chez vous:",
+    "searchCityTextPlaceholder" => "Tapez votre position (e.g. 'Paris, France')",
+    "searchAdvancedSearchLink" => "Recherche avancée",
+    "searchKeywordTextLabel" => "Mot-clé:",
+    "searchKeywordTextPlaceholder" => "Tapez ce que vous recherchez (e.g. 'poulet')",
+    "searchRadiusSelectLabel" => "Dans un rayon de:",
+    "searchRatingHiddenLabel" => "Note au dessus de:",
+    "searchPriceNumberLabel" => "Prix en dessous de:",
+    "searchLeoSearchingStickerAlt" => "Eat My Things",
+    "searchAdvancedSearchCancelLink" => "Annuler",
+
+    "searchSection2Header" => "Résultats de recherche",
+    "searchNumberOfResultsFound" => "résultats trouvés!",
+    "searchLeoHappySearchStickerAlt" => "Eat My Things",
+    "searchSortBySelectLabel" => "Trier par:",
+    "searchSortBySelectOption1" => "Meilleure note",
+    "searchSortBySelectOption2" => "Meilleur prix",
+    "searchResultsPerPageSelectLabel" => "Résultats par page:",
+    "searchNoResults" => "Désolé, aucun résultat n'a été trouvé.",
+    "searchDishResultsPictureAlt" => "Eat My Things",
+    "searchDishResultsPictureSeeMoreLink" => "Voir plus",
+    "searchDishResultsPictureOrderLink" => "Commander"
+
+
+
 
 ];

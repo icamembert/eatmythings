@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Torann\GeoIP\GeoIPFacade;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use DB;
+use Illuminate\Support\Facades\Input;
 
 class HomeController extends Controller {
 
@@ -38,8 +39,6 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-        $dishesForMap = Dish::join('users', 'dishes.user_id', '=', 'users.id')->orderBy('dishes.rating', 'desc')->groupBy('dishes.user_id')->select('dishes.*', 'users.address_google_place_id')->get();
-
         $dishes = Dish::orderBy('rating', 'desc')->limit(12)->get();
 
         $todayDishes = Dish::orderBy('rating', 'desc')->limit(3)->get();
@@ -51,41 +50,97 @@ class HomeController extends Controller {
 		return view('home', compact('dishesForMap', 'dishes', 'todayDishes', 'chefsOfTheWeek', 'location'));
 	}
 
-	public function search($googlePlaceId)
+	public function search()
 	{
         
+		$googlePlaceId = Input::get('googlePlaceId');
+
+		if (Input::has('radius'))
+        {
+        	$radius = Input::get('radius');
+        } else
+        {
+        	$radius = 50;
+        }
+
 		$json = json_decode(file_get_contents('https://maps.googleapis.com/maps/api/place/details/json?placeid=' . $googlePlaceId . '&key=AIzaSyDZ3X3vQ9tFf9I4F-3ON6rGC9JCGDzufLE'));
 		$lat = $json->result->geometry->location->lat;
 		$lng = $json->result->geometry->location->lng;
 
-		$rad = 50;
 		$R = 6371;
 
-		$maxLat = $lat + rad2deg($rad / $R);
-		$minLat = $lat - rad2deg($rad / $R);
+		$maxLat = $lat + rad2deg($radius / $R);
+		$minLat = $lat - rad2deg($radius / $R);
 
-		$maxLng = $lng + rad2deg($rad / $R / cos(deg2rad($lat)));
-		$minLng = $lng - rad2deg($rad / $R / cos(deg2rad($lat)));
+		$maxLng = $lng + rad2deg($radius / $R / cos(deg2rad($lat)));
+		$minLng = $lng - rad2deg($radius / $R / cos(deg2rad($lat)));
 
-		$dishesForMap = Dish::select('d1.*', 'users.address_google_place_id', 'users.city_google_place_id')->from('dishes as d1')
+		$sortBy = 'bestRating';
+
+		if (Input::has('sortBy'))
+        {
+        	$sortBy = Input::get('sortBy');
+        }
+
+        if ($sortBy == 'bestRating') {
+        	$dishes = Dish::select('d1.*', 'users.address_google_place_id', 'users.city_google_place_id')
+        	->from('dishes as d1')
         	->leftJoin('dishes as d2', function($join) {
         		$join->on('d1.user_id', '=', 'd2.user_id');
         		$join->on('d1.rating', '<', 'd2.rating');
-        	})->leftJoin('users', 'd1.user_id', '=', 'users.id')->whereNull('d2.rating')
+        	})
+        	->leftJoin('users', 'd1.user_id', '=', 'users.id')->whereNull('d2.rating')
+        	->orderBy('d1.rating', 'desc')
         	->whereBetween('users.lat', [$minLat, $maxLat])
-        	->whereBetween('users.lng', [$minLng, $maxLng])
-        	->paginate(8);
-
-        /*$dishesForMap = Dish::select('d1.*', 'users.address_google_place_id', 'users.city_google_place_id')->from('dishes as d1')
+        	->whereBetween('users.lng', [$minLng, $maxLng]);
+        } else {
+        	$dishes = Dish::select('d1.*', 'users.address_google_place_id', 'users.city_google_place_id')
+        	->from('dishes as d1')
         	->leftJoin('dishes as d2', function($join) {
         		$join->on('d1.user_id', '=', 'd2.user_id');
-        		$join->on('d1.rating', '<', 'd2.rating');
-        	})->leftJoin('users', 'd1.user_id', '=', 'users.id')->whereNull('d2.rating')
-        	/*->where('users.city_google_place_id', '=', $googlePlaceId)*//*->paginate(20);*/
+        		$join->on('d1.price', '>', 'd2.price');
+        	})
+        	->leftJoin('users', 'd1.user_id', '=', 'users.id')->whereNull('d2.price')
+        	->orderBy('d1.price')
+        	->whereBetween('users.lat', [$minLat, $maxLat])
+        	->whereBetween('users.lng', [$minLng, $maxLng]);
+        }
+		
 
         $searchedGooglePlaceId = $googlePlaceId;
+        
+        $name = '';
+        $rating = '';
+        $price = '';
 
-		return view('search', compact('dishesForMap', 'searchedGooglePlaceId'));
+        $resultsPerPage = 8;
+
+        if (Input::has('name'))
+        {
+        	$name = Input::get('name');
+        	$dishes = $dishes->where('d1.name', 'LIKE', '%' . $name .'%');
+        }
+
+        if (Input::has('rating'))
+        {
+        	$rating = Input::get('rating');
+        	$dishes = $dishes->where('d1.rating', '>=', $rating);
+        }
+
+        if (Input::has('price'))
+        {
+        	$price = Input::get('price');
+        	$dishes = $dishes->where('d1.price', '<=', $price);
+        }
+
+        if (Input::has('resultsPerPage'))
+        {
+        	$resultsPerPage = Input::get('resultsPerPage');
+        }
+
+        $dishes = $dishes->paginate($resultsPerPage);
+
+		return view('search', compact('dishes', 'searchedGooglePlaceId', 'name', 'rating', 'price', 'radius', 'sortBy', 'resultsPerPage'));
 	}
 
 	public function aboutUs() {

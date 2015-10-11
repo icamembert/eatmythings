@@ -150,7 +150,7 @@
                       <div class="input-group">
                           <input id="pac-input" type="text" class="form-control" name="s" id="s" value="" placeholder="{{ trans('strings.homeSearch3') }}" />
                           <span class="input-group-btn">
-                            <a id="searchDishesButton" class="btn btn-primary" href="/search/"><i class="fa fa-search"></i></a>
+                            <a id="searchDishesButton" class="btn btn-primary"><i class="fa fa-search"></i></a>
                           </span>
                       </div>
 
@@ -247,10 +247,9 @@
 
   <script>
 
-    function initialize() {
+    function initializeAutocomplete() {
 
-      var input = /** @type {HTMLInputElement} */(
-          document.getElementById('pac-input'));
+      var input = document.getElementById('pac-input');
 
 
       var autocomplete = new google.maps.places.Autocomplete(input,
@@ -263,6 +262,12 @@
       var linkToFirstPrediction = function(predictions) {
         if (predictions) {
           $('#searchDishesButton').prop('href', '/search/' + predictions[0].place_id);
+        }
+      }
+
+      var linkToFirstPredictionAndSubmit = function(predictions) {
+        if (predictions) {
+          $('#searchDishesButton').prop('href', '/search/' + predictions[0].place_id);
           $('#searchDishesButton')[0].click();
         }
       }
@@ -272,18 +277,23 @@
         var place = autocomplete.getPlace();
         
         if (place.geometry) {
-          //var _href = $('#searchDishesButton').prop('href');
           $('#searchDishesButton').prop('href', '/search/' + place.place_id);
           $('#searchDishesButton')[0].click();
         } else {
-          autocompleteService.getQueryPredictions({input: input.value}, linkToFirstPrediction);
+          autocompleteService.getQueryPredictions({input: input.value}, linkToFirstPredictionAndSubmit);
         }
+
+      });
+
+      $('#pac-input').mouseleave(function() {
+
+        autocompleteService.getQueryPredictions({input: input.value}, linkToFirstPrediction);
 
       });
 
     }
 
-    google.maps.event.addDomListener(window, 'load', initialize);
+    google.maps.event.addDomListener(window, 'load', initializeAutocomplete);
 
   </script>
 
