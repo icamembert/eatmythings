@@ -10,11 +10,11 @@
             <!-- PAGE TITLE -->
             <header id="page-title">
                 <div class="container">
-                    <h1>{{ trans('strings.breadBecomeAChef') }}</h1>
+                    <h1>{{ trans('strings.breadHowDoesItWork') }}</h1>
 
                     <ul class="breadcrumb">
                         <li><a href="{{ action('HomeController@index') }}">{{ trans('strings.breadHome') }}</a></li>
-                        <li class="active">{{ trans('strings.breadBecomeAChef') }}</li>
+                        <li class="active">{{ trans('strings.breadHowDoesItWork') }}</li>
                     </ul>
                 </div>
             </header>
@@ -24,12 +24,11 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <h2>Why & How to become a chef?</h2>
+                        <h2>How does it work?</h2>
 
                         <p>
-                            If you already know what you want, then you can easily become a chef right away by creating an account <a href="{{ action('Auth\AuthController@getRegister') }}">here</a>!
-                            Otherwise, here's a selection of the most frequently asked questions:
-                        </p>
+                            Here's all the information you might want to know about Eat My Things:
+                        </p>    
                     </div>
                 </div>
 
@@ -37,7 +36,7 @@
 
                     <div class="col-md-8 col-md-offset-2">
 
-                        <img class="img-responsive center-block" src="{{ asset('img/bonnie-ready.png') }}" alt="Bonnie" title="Bonnie" />
+                        <img class="img-responsive center-block" src="{{ asset('img/bonnie-leo-questions.png') }}" alt="Bonnie" title="Bonnie" width="70%" />
 
                         <div class="panel-group" id="accordion">
                             <div class="panel panel-default">
@@ -45,15 +44,17 @@
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion" href="#acordion1">
                                             <i class="fa fa-check"></i>
-                                            I like to cook, how's Eat My Things going to help me in living my passion fully?
+                                            How do I order food on Eat My Things?
                                         </a>
                                     </h4>
                                 </div>
                                 <div id="acordion1" class="collapse in">
                                     <div class="panel-body">
-                                        "Fully", you said it! Through our network, you can make become visible what you've been talented at for all these years.
-                                        You can also make a living out of it at the same time. If you believe being paid for living your passion is good, then
-                                        you're in the right place!
+                                        The first step is: signing up! We know it's always the same words and so many websites will tell you the same thing.
+                                        Boring, right? But anyway it's still true, just a few seconds and you're good to go! After that, just use the search
+                                        function to find dishes around your place and choose the things you think will make you have a good meal. Add them to
+                                        your cart and place your order, telling the Chef when and how you want to get the food. The chef will contact you if
+                                        any additional information is needed. That's it!
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +70,7 @@
                                 <div id="acordion2" class="collapse">
                                     <div class="panel-body">
                                         No, absolutely not. Everything you do here is free of charge, we currently plan on making money through some advertising,
-                                        but we guarantee we will never ever put a tax on your activities through our site.
+                                        but we guarantee we will never ever put a tax on your meals!
                                     </div>
                                 </div>
                             </div>
@@ -86,6 +87,21 @@
                                     <div class="panel-body">
                                         We believe anyone can cook and should be able to start showing their talent easily and quickly. We also believe users' ratings & reviews
                                         will ensure the quality of the service.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#acordion4">
+                                            <i class="fa fa-check"></i>
+                                            Can I pay online using PayPal or a Credit Card?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="acordion4" class="collapse">
+                                    <div class="panel-body">
+                                        Not yet but we're working hard on it!
                                     </div>
                                 </div>
                             </div>

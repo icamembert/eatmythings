@@ -114,7 +114,7 @@
                             <h4>{!! trans('strings.signUpContact1') !!}</h4>
                             <p>
                                 {{ trans('strings.signUpContact2') }}
-                                {{ trans('strings.signUpContact3') }}
+                                <a href="{{ action('HomeController@contactUs') }}">{{ trans('strings.signUpContact3') }}</a>
                             </p>
                         </div>
 

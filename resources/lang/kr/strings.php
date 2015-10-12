@@ -19,9 +19,9 @@ return [
     "navContact" => "고객센터",
     "navSignIn" => "로그인",
     "navSignOut" => "로그아웃",
-    "navMenuTitle" => "홈",
-    "navMenuItem1" => "이용안내",
-    "navMenuItem2" => "팁 & 비결",
+    "navMenuHowDoesItWork" => "Comment ça marche?",
+    "navMenuSignUp" => "Je m'inscris",
+    "navMenuBecomeAChef" => "Devenir un Chef",
     "navSearch" => "홈페이지 내 검색!",
     "navCartEmpty" => "당신의 배고픈 카트에는 현재 아무것도 없습니다!",
     "navCartNotEmpty" => "당신의 배고픈 카트가 현재 담고있는 것:",
@@ -33,6 +33,8 @@ return [
     // ******** Bread Crumbs ********
 
     "breadHome" => "홈",
+    "breadAboutUs" => "About Us",
+    "breadContactUs" => "Contact Us",
     "breadSignIn" => "로그인",
     "breadSignUp" => "회원가입",
     "breadMyAccount" => "내 계정",
@@ -43,6 +45,8 @@ return [
     "breadPlaceOrder" => "주문하기",
     "breadEditOrder" => "주문변경",
     "breadSearchDishes" => "Search Dishes",
+    "breadHowDoesItWork" => "How does it work?",
+    "breadBecomeAChef" => "Become a Chef",
 
     // ******** Home Page ********
 
@@ -129,7 +133,7 @@ return [
 
     "profileChefOrders1" => "식신들의 주문",
     "profileChefOrders2" => "주문이 아직 없습니다...",
-    "profileChefOrders3" => "회원님의 요리를 원하는 식신들의 주문 내역입니다!",
+    "profileChefOrders3" => "회원님의 요리를 원하는 식신들의 주문 내역입니다:",
     "profileChefOrders4" => "주문:",
     "profileChefOrders5" => "요리",
     "profileChefOrders6" => "식신의 이름",
@@ -147,7 +151,7 @@ return [
     "profileChefDishes1" => "내 요리들",
     "profileChefDishes2" => ":userName님께서 만드신 요리들",
     "profileChefDishes3" => "회원님께서 만드신 요리 리스트입니다:",
-    "profileChefDishes4" => "만들어진 요리 리스트입니다.",
+    "profileChefDishes4" => ":userName님께서 만드신 요리 리스트입니다:",
     "profileChefDishes5" => "새로운 요리를 추가하는건 어떠신가요?",
     "profileChefDishes6" => "요리 추가",
     "profileChefDishes7" => "요리사가 되어 보는건 어떠신가요?",
@@ -175,7 +179,7 @@ return [
     "profileHungry4" => ":userName님께서는 아직 식신 활동이 없으십니다.",
 
     "profileHungryOrders1" => "내 주문",
-    "profileHungryOrders2" => "회원님께서 요청하신 주문내역입니다!",
+    "profileHungryOrders2" => "회원님께서 요청하신 주문내역입니다:",
     "profileHungryOrders3" => "주문:",
     "profileHungryOrders4" => "요리",
     "profileHungryOrders5" => "요리사이름",
@@ -193,8 +197,8 @@ return [
 
     "profileHungryReviews1" => "내 후기",
     "profileHungryReviews2" => ":userName님의 후기",
-    "profileHungryReviews3" => "회원님께서 작성하신 후기 목록입니다.",
-    "profileHungryReviews4" => "후기 목록입니다 :userName님께서 작성하셨습니다.",
+    "profileHungryReviews3" => "회원님께서 작성하신 후기 목록입니다:",
+    "profileHungryReviews4" => "후기 목록입니다 :userName님께서 작성하셨습니다:",
     "profileHungryReviews5" => "후기:",
 
     // ******** Dish Page ********
@@ -279,6 +283,6 @@ return [
     "searchDishResultsPictureOrderLink" => "Order"
 
 
-    
+
 
 ];

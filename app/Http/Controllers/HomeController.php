@@ -155,6 +155,12 @@ class HomeController extends Controller {
 
 	}
 
+	public function howDoesItWork() {
+
+		return view('how-does-it-work');
+
+	}
+
 	public function becomeAChef() {
 
 		return view('become-a-chef');

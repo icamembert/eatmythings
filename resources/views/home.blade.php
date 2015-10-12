@@ -281,10 +281,11 @@
         var place = autocomplete.getPlace();
         
         if (place.geometry) {
-          $('#googlePlaceId').val(predictions[0].place_id);
-          $('#searchDishesButton')[0].click();
+          $('#googlePlaceId').val(place.place_id);
+          $('#searchDishesButton')[0].click()
         } else {
-          autocompleteService.getQueryPredictions({input: input.value}, linkToFirstPredictionAndSubmit);
+          if ($('#pac-input').val())
+            autocompleteService.getQueryPredictions({input: input.value}, linkToFirstPredictionAndSubmit);
         }
 
       });
@@ -296,8 +297,19 @@
 
       });
 
+      $('#pac-input').keypress(function(e) {
+
+        if (e.keyCode == 13) {
+          e.preventDefault();
+          if ($('#pac-input').val())
+            autocompleteService.getQueryPredictions({input: input.value}, linkToFirstPredictionAndSubmit);
+        }
+
+      });
+
       $('#searchDishesButton').click(function() {
-        $('#searchForm').submit();
+        if ($('#pac-input').val())
+          $('#searchForm').submit();
       });
 
     }

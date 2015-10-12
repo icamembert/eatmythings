@@ -119,7 +119,7 @@
 
                 <p class="white-row">
                     {{ trans('strings.signInNoAccountYet1') }}
-                    <a href="{{ action('Auth\AuthController@getRegister') }}">{{ trans('strings.signInNoAccountYet1') }}</a>
+                    <a href="{{ action('Auth\AuthController@getRegister') }}">{{ trans('strings.signInNoAccountYet2') }}</a>
                     {{ trans('strings.signInNoAccountYet3') }}
                 </p>
 

@@ -115,9 +115,11 @@
                     <li class="nav">
                         <div class="pull-right nav hidden-xs">
                             <i class="fa fa-star"></i>
-                            <a href="{{ action('Auth\AuthController@getRegister') }}"><strong>Register</strong></a>
+                            <a href="{{ action('HomeController@howDoesItWork') }}"><strong>{{ trans('strings.navMenuHowDoesItWork') }}</strong></a>
                             <i class="fa fa-star"></i>
-                            <a href="{{ action('HomeController@becomeAChef') }}"><strong>Become a chef</strong></a>
+                            <a href="{{ action('Auth\AuthController@getRegister') }}"><strong>{{ trans('strings.navMenuSignUp') }}</strong></a>
+                            <i class="fa fa-star"></i>
+                            <a href="{{ action('HomeController@becomeAChef') }}"><strong>{{ trans('strings.navMenuBecomeAChef') }}</strong></a>
                             <i class="fa fa-star"></i>
                         </div>
                     </li>

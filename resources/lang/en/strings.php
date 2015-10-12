@@ -19,9 +19,9 @@ return [
     "navContact" => "Contact Us",
     "navSignIn" => "Sign In",
     "navSignOut" => "Sign Out",
-    "navMenuTitle" => "Home",
-    "navMenuItem1" => "How does it work?",
-    "navMenuItem2" => "Tips & Tricks",
+    "navMenuHowDoesItWork" => "How does it work?",
+    "navMenuSignUp" => "Sign Up",
+    "navMenuBecomeAChef" => "Become a Chef",
     "navSearch" => "Search through the site!",
     "navCartEmpty" => "You currently haven't got anything in your hungry cart!",
     "navCartNotEmpty" => "Your hungry cart currently contains:",
@@ -33,6 +33,8 @@ return [
     // ******** Bread Crumbs ********
 
     "breadHome" => "Home",
+    "breadAboutUs" => "About Us",
+    "breadContactUs" => "Contact Us",
     "breadSignIn" => "Sign In",
     "breadSignUp" => "Sign Up",
     "breadMyAccount" => "My Account",
@@ -43,6 +45,8 @@ return [
     "breadPlaceOrder" => "Place Order",
     "breadEditOrder" => "Edit Order",
     "breadSearchDishes" => "Search Dishes",
+    "breadHowDoesItWork" => "How does it work?",
+    "breadBecomeAChef" => "Become a Chef",
 
     // ******** Home Page ********
 
@@ -147,7 +151,7 @@ return [
     "profileChefDishes1" => "My Dishes",
     "profileChefDishes2" => "Dishes made by :userName",
     "profileChefDishes3" => "Here's the list of dishes you created:",
-    "profileChefDishes4" => "Here's the list of dishes  created.",
+    "profileChefDishes4" => "Here's the list of dishes :userName created.",
     "profileChefDishes5" => "How about adding a new one?",
     "profileChefDishes6" => "Add a Dish",
     "profileChefDishes7" => "How about becoming a chef yourself?",
@@ -261,7 +265,7 @@ return [
     "searchKeywordTextLabel" => "Keyword:",
     "searchKeywordTextPlaceholder" => "Type in what you're looking for (e.g. 'chicken')",
     "searchRadiusSelectLabel" => "Within:",
-    "searchRatingHiddenLabel" => "Rating above:",
+    "searchRatingHiddenLabel" => "Rating atleast:",
     "searchPriceNumberLabel" => "Price below:",
     "searchLeoSearchingStickerAlt" => "Eat My Things",
     "searchAdvancedSearchCancelLink" => "Cancel",

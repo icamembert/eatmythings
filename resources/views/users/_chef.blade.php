@@ -79,7 +79,7 @@
                 @if ($user->isMe())
                     {{ trans('strings.profileChefDishes3') }}
                 @else
-                    {{ trans('strings.profileChefDishes4') }}
+                    {{ Lang::get('strings.profileChefDishes4', ['userName' => $user->name]) }}
                 @endif
             </p>
             @if ($user->isMe())
