@@ -8,6 +8,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Log;
 
 class CropImage extends Command implements SelfHandling, ShouldBeQueued {
 
@@ -39,7 +40,9 @@ class CropImage extends Command implements SelfHandling, ShouldBeQueued {
 		$cropx = $cropObject['cropx'];
 		$cropy = $cropObject['cropy'];
 
-		dd($picture = Image::make($destinationPath . '/profile_picture.jpg'));
+		Log::info('' . getcwd());
+
+		$picture = Image::make($destinationPath . '/profile_picture.jpg');
 
 		/*if ( ! File::exists($destinationPath))
         {
