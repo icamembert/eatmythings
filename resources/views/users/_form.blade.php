@@ -16,8 +16,9 @@
     </div>
 </div>
 
-<div id="map-canvas"></div>
-<input type="hidden" name="place_id" id="placeId" />
+<input type="hidden" name="address_google_place_id" id="address_google_place_id" />
+<input type="hidden" name="lat" id="lat" />
+<input type="hidden" name="lng" id="lng" />
 
 <!-- About Form Input -->
 
@@ -39,6 +40,7 @@
     </div>
 </div>
 
+<input type="hidden" name="cropped" id="cropped" value="false" />
 <input type="hidden" name="cropx" id="cropx" value="0" />
 <input type="hidden" name="cropy" id="cropy" value="0" />
 <input type="hidden" name="cropw" id="cropw" value="0" />

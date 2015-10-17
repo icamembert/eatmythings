@@ -25,7 +25,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
 
 	Route::get('users', 'UsersController@index');
 	Route::get('users/{users}', 'UsersController@show');
-	Route::get('my-account', 'UsersController@edit');
+	Route::get('my-account', array('as' => 'my-account', 'uses' => 'UsersController@edit'));
 	Route::put('users/{users}', 'UsersController@update');
 	Route::patch('users/{users}', 'UsersController@update');
 	Route::delete('users/{users}', 'UsersController@destroy');
@@ -35,9 +35,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
 	//Route::get('dishes/{id}', 'DishesController@show');
 	//Route::post('dishes', 'DishesController@store');
 	//Route::get('dishes/{id}/edit', 'DishesController@edit');
-	Route::get('dishes/view-cart', 'DishesController@viewCart');
+	Route::get('dishes/view-cart', array('as' => 'view-cart', 'uses' => 'DishesController@viewCart'));
 	Route::resource('dishes', 'DishesController');
 	Route::post('dishes/{dishes}/add-to-cart', 'DishesController@addToCart');
+	Route::get('dishes/{dishes}/remove-from-cart', 'DishesController@removeFromCart');
+	Route::get('dishes/{dishes}/update-cart', 'DishesController@updateCart');
 	//Route::get('dishes/{dishes}/{isBeingOrdered}', 'DishesController@show');
 
 	Route::resource('orders', 'OrdersController');

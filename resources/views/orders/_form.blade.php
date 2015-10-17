@@ -56,6 +56,6 @@
 <!-- Add/Edit Order Form Input -->
 
 <!--<div class="modal-footer">--><!-- modal footer -->
-    <button class="btn btn-default">{{ trans('strings.order9') }}</button> <!--data-dismiss="modal"-->
+    <a href="{{ route($backButtonRoute) }}" class="btn btn-default">{{ $backButtonText }}</a> <!--data-dismiss="modal"-->
     {!! Form::submit($submitButtonText, ['class' => 'btn btn-primary form control']) !!}
 <!--</div>--><!-- /modal footer -->

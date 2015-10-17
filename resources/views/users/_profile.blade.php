@@ -1,4 +1,4 @@
-<div class="white-row">
+<div class="row white-row">
 
     @if ($user->isMe())
         <h2>{{ trans('strings.profileSummary1') }}</h2>
@@ -9,7 +9,7 @@
     <div class="row">
         <div id="profileShow">
             <div class="col-md-3">
-                <img class="img-responsive" src="{{ asset('userdata/' . $user->id . '/profile_picture_md.jpg') }}" alt="Profile Picture" width="300" height="300" />
+                <img class="img-responsive" src="{{ asset($profilePicturePath) }}" alt="Profile Picture" width="300" height="300" />
                 <h3 class="text-center">{{ $user->name }}</h3>
             </div>
             <div class="col-md-9">
@@ -22,8 +22,7 @@
                     @if ($user->isMe())
                         <li>{{ trans('strings.profileSummary6') }} {{ $user->email }}</li>
                     @endif
-                    <li>{{ trans('strings.profileSummary7') }} </li>
-                    <li id="locationListElement"></li>
+                    <li id="locationListElement">{{ trans('strings.profileSummary7') }}</li>
                     <li>{{ trans('strings.profileSummary8') }} {{ $user->about }}</li>
                 </ul>
                 @if ($user->isMe())
@@ -32,7 +31,7 @@
             </div>
         </div>
         @if ($user->isMe())
-            <div id="profileEdit" class="col-md-12">
+            <div id="profileEdit" class="col-md-12" style="display: none">
                 @if (count($errors) > 0)
                         <div class="alert alert-danger">
                             <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -43,13 +42,13 @@
                                     </ul>
                         </div>
                 @endif
-                {!! Form::model($user, ['id' => 'profileForm', 'method' => 'PATCH', 'action' => ['UsersController@update', $user->id], 'files' => true]) !!}
-                    @include('users._form', ['submitButtonText' => trans('strings.profileSummary13')])
-                {!! Form::close() !!}
-                <div id="prout" class="row" style="padding-top: 15px;">
-                    <div class="col-md-6">
-                        <img id="pictureViewer" class="img-responsive" src="" alt="" width="500px" height="500px"/>
-                    </div>
+                <div id="JcropContainer" class="col-md-6" style="padding-top: 15px;">
+                        <img id="JcropPicture" class="img-responsive" src="{{ asset($profilePicturePath) }}" alt=""/>
+                </div>
+                <div class="col-md-6">
+                    {!! Form::model($user, ['id' => 'profileForm', 'method' => 'PATCH', 'action' => ['UsersController@update', $user->id], 'files' => true]) !!}
+                        @include('users._form', ['submitButtonText' => trans('strings.profileSummary13')])
+                    {!! Form::close() !!}
                 </div>
             </div>
         @endif

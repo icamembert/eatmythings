@@ -252,7 +252,8 @@ return [
     "order6" => "Chez moi",
     "order7" => "Chez le chef",
     "order8" => "Commentaire:",
-    "order9" => "Retour au panier",
+    "orderBackToCart" => "Retour au panier",
+    "orderBackToProfile" => "Retour au profil",
     "order10" => "Confirmer commande",
     "order11" => "Mettre à jour commande",
 

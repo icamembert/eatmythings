@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Collection;
 use DB;
+use App\Commands\CropImage;
 
 class UsersController extends Controller {
 
@@ -40,7 +41,14 @@ class UsersController extends Controller {
 	 */
 	public function show(User $user)
 	{
-        return view('users.show', compact('user'));
+        if (File::exists('userdata/' . $user->id . '/profile_picture_md.jpg'))
+        {
+        	$profilePicturePath = 'userdata/' . $user->id . '/profile_picture_md.jpg';
+        } else {
+        	$profilePicturePath = 'img/default-profile-picture_md.jpg';
+        }
+
+        return view('users.show', compact('user', 'profilePicturePath'));
 	}
 
 	/**
@@ -61,6 +69,13 @@ class UsersController extends Controller {
         						->orderBy('orders.served_at')
         						->get();
 
+        if (File::exists('userdata/' . $user->id . '/profile_picture_md.jpg'))
+        {
+        	$profilePicturePath = 'userdata/' . $user->id . '/profile_picture_md.jpg';
+        } else {
+        	$profilePicturePath = 'img/default-profile-picture_md.jpg';
+        }
+
         /*foreach ($user->dishes as $dish)
         {
 		   	foreach ($dish->orders as $order)
@@ -77,7 +92,7 @@ class UsersController extends Controller {
 
         //$clientOrders = $clientOrders->sortByDesc('updated_at');
 
-        return view('users.edit', compact('user', 'clientOrders'));
+        return view('users.edit', compact('user', 'clientOrders', 'profilePicturePath'));
 	}
 
 	/**
@@ -91,23 +106,25 @@ class UsersController extends Controller {
 	{
         $user->update($request->all());
 
-        $picture = Image::make($request->file('picture'));
-
-        $destinationPath = 'userdata/' . Auth::user()->id;
-        
-        if ( ! File::exists($destinationPath))
+        if ($request->input('cropped') === 'true')
         {
-        	File::makeDirectory($destinationPath, 0777, true);
+        	$picture = Image::make($request->file('picture'));
+
+	        $destinationPath = 'userdata/' . Auth::user()->id;
+	        
+	        $picture->save($destinationPath . '/profile_picture.jpg');
+
+	        $cropObject = [
+				'destinationPath' => $destinationPath,
+				'cropw' => (int) $request->input('cropw'),
+				'croph' => (int) $request->input('croph'),
+				'cropx' => (int) $request->input('cropx'),
+				'cropy' => (int) $request->input('cropy'),
+			];
+
+			$this->dispatch(new CropImage($cropObject));
         }
-
-        $croppedPicture = $picture->crop((int)$request->input('cropw'), (int)$request->input('croph'), (int)$request->input('cropx'), (int)$request->input('cropy'));
-        $croppedPicture->save($destinationPath . '/profile_picture.jpg');
-
-        $croppedPictureMedium = $croppedPicture->resize(300, 300);
-        $croppedPictureMedium->save($destinationPath . '/profile_picture_md.jpg');
-
-        $croppedPictureSmall = $croppedPictureMedium->resize(100, 100);
-        $croppedPictureSmall->save($destinationPath . '/profile_picture_sm.jpg');
+        
         
         flash()->success('Your profile has been updated!');
 

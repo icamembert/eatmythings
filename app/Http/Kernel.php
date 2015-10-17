@@ -30,7 +30,8 @@ class Kernel extends HttpKernel {
 		'guest' => 'App\Http\Middleware\RedirectIfAuthenticated',
         'dish.creator' => 'App\Http\Middleware\RedirectIfNotCreatorOfDish',
         'user.himself' => 'App\Http\Middleware\RedirectIfUserNotHimself',
-        'order.related' => 'App\Http\Middleware\RedirectIfUserNotRelatedToOrder'
+        'order.related' => 'App\Http\Middleware\RedirectIfUserNotRelatedToOrder',
+        'cart.empty' => 'App\Http\Middleware\RedirectIfCartEmpty'
 	];
 
 }

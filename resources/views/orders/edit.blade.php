@@ -42,7 +42,7 @@
                         @endif
 
                         {!! Form::model($order, ['method' => 'PATCH', 'action' => ['OrdersController@update', $order->id]]) !!}
-                            @include('orders._form', ['submitButtonText' => trans('strings.order11')])
+                            @include('orders._form', ['submitButtonText' => trans('strings.order11'), 'backButtonText' => trans('strings.orderBackToProfile'), 'backButtonRoute' => 'my-account'])
                         {!! Form::close() !!}
 
                         @include('errors.list')

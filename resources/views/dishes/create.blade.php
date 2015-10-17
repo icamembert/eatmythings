@@ -52,9 +52,9 @@
 
                 </div>
 
-                <div id="prout" class="row" style="padding-top: 15px;">
+                <div id="JcropContainer" class="row" style="padding-top: 15px;">
                     <div class="col-md-6">
-                        <img id="pictureViewer" class="img-responsive" src="" alt="" width="500px" height="500px"/>
+                        <img id="JcropPicture" class="img-responsive" src="" alt="" width="500px" height="500px"/>
                     </div>
                 </div>
 

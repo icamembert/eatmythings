@@ -252,7 +252,8 @@ return [
     "order6" => "내 집에서",
     "order7" => "요리사 집에서",
     "order8" => "댓글:",
-    "order9" => "카트로 돌아가기",
+    "orderBackToCart" => "카트로 돌아가기",   
+    "orderBackToProfile" => "Back to Profile",
     "order10" => "주문하기",
     "order11" => "주문 업데이트",
 

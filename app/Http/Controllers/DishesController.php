@@ -17,6 +17,7 @@ class DishesController extends Controller {
     {
        $this->middleware('auth', ['only' => ['create', 'edit', 'update', 'destroy']]);
        $this->middleware('dish.creator', ['only' => ['edit', 'update', 'destroy']]);
+       $this->middleware('cart.empty', ['only' => ['viewCart']]);
     }
 
 	/**
@@ -124,24 +125,27 @@ class DishesController extends Controller {
 	{
         $dish->update($request->all());
 
-        $picture = Image::make($request->file('picture'));
-
-        $destinationPath = 'userdata/' . Auth::user()->id . '/dishes/' . $dish->id;
-        
-        if ( ! File::exists($destinationPath))
+        if ($request->input('cropped') === 'true')
         {
-        	File::makeDirectory($destinationPath, 0777, true);
+        	$picture = Image::make($request->file('picture'));
+
+	        $destinationPath = 'userdata/' . Auth::user()->id . '/dishes/' . $dish->id;
+	        
+	        if ( ! File::exists($destinationPath))
+	        {
+	        	File::makeDirectory($destinationPath, 0777, true);
+	        }
+
+	        $croppedPicture = $picture->crop((int)$request->input('cropw'), (int)$request->input('croph'), (int)$request->input('cropx'), (int)$request->input('cropy'));
+	        $croppedPicture->save($destinationPath . '/picture.jpg');
+
+	        $croppedPictureMedium = $croppedPicture->resize(300, 300);
+	        $croppedPictureMedium->save($destinationPath . '/picture_md.jpg');
+
+	        $croppedPictureSmall = $croppedPictureMedium->resize(100, 100);
+	        $croppedPictureSmall->save($destinationPath . '/picture_sm.jpg');
         }
-
-        $croppedPicture = $picture->crop((int)$request->input('cropw'), (int)$request->input('croph'), (int)$request->input('cropx'), (int)$request->input('cropy'));
-        $croppedPicture->save($destinationPath . '/picture.jpg');
-
-        $croppedPictureMedium = $croppedPicture->resize(300, 300);
-        $croppedPictureMedium->save($destinationPath . '/picture_md.jpg');
-
-        $croppedPictureSmall = $croppedPictureMedium->resize(100, 100);
-        $croppedPictureSmall->save($destinationPath . '/picture_sm.jpg');
-
+        
         $dish->tags()->sync(is_null($request->input('tags_list')) ? [] : $request->input('tags_list'));
 
         flash()->success('Your dish has been updated!');
@@ -188,6 +192,46 @@ class DishesController extends Controller {
 	public function viewCart()
 	{
 		return view('dishes.view-cart');
+	}
+
+	/**
+	 * Remove dish from cart.
+	 *
+	 * @return Response
+	 */
+	public function removeFromCart(Dish $dish)
+	{
+
+		if ($cart = Cart::search(array('id' => $dish->id)))
+		{
+			Cart::remove($cart[0]);
+			return redirect()->back()->with('flash_message', 'Your cart has been updated!');	
+		}
+		
+	}
+
+	/**
+	 * Update cart.
+	 *
+	 * @return Response
+	 */
+	public function updateCart(Dish $dish)
+	{
+
+		$sign = Request::input('sign');
+
+		if ($cart = Cart::search(array('id' => $dish->id)))
+		{
+			$qty = Cart::get($cart[0])->qty;
+
+			if ($sign == 'plus')
+				Cart::update($cart[0], array('qty' => $qty + 1));
+			if ($sign == 'minus' && $qty > 1)
+				Cart::update($cart[0], array('qty' => $qty - 1));
+			
+			return redirect()->back()->with('flash_message', 'Your cart has been updated!');	
+		}
+		
 	}
 
 }

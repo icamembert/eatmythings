@@ -106,7 +106,6 @@
 
 @section('afterScripts')
     <script>
-        $('#profileEdit').hide();
         $('#editProfileButton').click(function() {
             $(this).hide();
             $('#profileShow').hide(400);
@@ -118,171 +117,96 @@
             $('#profileEdit').hide(400);
             $('#profileShow').show(400);
             $('#editProfileButton').show();
+            $('#cropped').val('false');
+            if (typeof JcropAPI != 'undefined')
+                JcropAPI.destroy();
+            $('#JcropPicture').replaceWith("<img id='JcropPicture' class='img-responsive' src='{{ asset($profilePicturePath) }}'' alt=''/>");
         });
 
-        var pictureRatio = 0;
+        $('input,text').keypress(function(event) { return event.keyCode != 13; });
+        $('input,email').keypress(function(event) { return event.keyCode != 13; });
 
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
+        function initializeAutocomplete() {
 
-                reader.onload = function (e) {
-                    $('#pictureViewer')
-                            .attr('src', e.target.result);
-                            //.width(150)
-                            //.height(200);
-                    $('#pictureViewer').one('load', function() {
-                        pictureRatio = document.getElementById('pictureViewer').naturalWidth / document.getElementById('pictureViewer').clientWidth;
-                        if (document.getElementById('pictureViewer').naturalWidth < 500 || document.getElementById('pictureViewer').naturalHeight < 500) {
-                            $('#pictureViewer')
-                                    .attr('src', '');
+            var placeId = '{{ $user->address_google_place_id }}';
+            var geocoder = new google.maps.Geocoder();
 
-                            if (typeof JcropAPI != 'undefined')
-                                JcropAPI.destroy();
+            geocoder.geocode({'placeId': placeId}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[0]) {
+                        var _html = $('#locationListElement').html();
+                        $('#locationListElement').html(_html + ' ' + results[0].formatted_address);
+                        $('#pac-input').val(results[0].formatted_address);
+                    }
+                }
+            });
 
-                            initJcrop(pictureRatio);
+            var input = document.getElementById('pac-input');
 
-                            alert('Picture must be at least 500x500 pixels!');
+            var autocomplete = new google.maps.places.Autocomplete(input,
+            {
+                types: ['(cities)']
+            });
 
-                        } else {
+            var autocompleteService = new google.maps.places.AutocompleteService();
 
-                            if (typeof JcropAPI != 'undefined')
-                                JcropAPI.destroy();
-                            initJcrop(pictureRatio);
+            var linkToFirstPrediction = function(predictions) {
 
-                        }
-                    });
-                };
+                if (predictions) {
+                    $('#googlePlaceId').val(predictions[0].place_id);
+                }
 
-                reader.readAsDataURL(input.files[0]);
             }
+
+            google.maps.event.addListener(autocomplete, 'place_changed', function() {
+
+                var place = autocomplete.getPlace();
+
+                if (place.geometry) {
+                    $('#address_google_place_id').val(place.place_id);
+                    $('#lat').val(place.geometry.location.lat());
+                    $('#lng').val(place.geometry.location.lng());
+                } else {
+                    if ($('#pac-input').val())
+                        autocompleteService.getQueryPredictions({input: input.value}, linkToFirstPrediction);
+                }
+
+                var address = '';
+                if (place.address_components) {
+                  address = [
+                    (place.address_components[0] && place.address_components[0].short_name || ''),
+                    (place.address_components[1] && place.address_components[1].short_name || ''),
+                    (place.address_components[2] && place.address_components[2].short_name || '')
+                  ].join(' ');
+                }
+
+                $('#address_google_place_id').val(place.place_id);
+
+            });
+
+            $('#pac-input').mouseleave(function() {
+
+                if ($('#pac-input').val())
+                    autocompleteService.getQueryPredictions({input: input.value}, linkToFirstPrediction);
+
+            });
+
+            $('#pac-input').keypress(function(e) {
+
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    if ($('#pac-input').val())
+                        autocompleteService.getQueryPredictions({input: input.value}, linkToFirstPrediction);
+                }
+
+            });
+
         }
 
+        google.maps.event.addDomListener(window, 'load', initializeAutocomplete);
 
-        function initJcrop(pictureRatio)
-                {
-
-                    $('#pictureViewer').Jcrop({
-                        setSelect: [0, 0, Math.round(500 / pictureRatio), Math.round(500 / pictureRatio)],
-                        aspectRatio: 1,
-                        minSize: [Math.round(500 / pictureRatio), Math.round(500 / pictureRatio)],
-                        allowSelect: false,
-                        boxWidth: 500,//document.getElementById('pictureViewer').clientWidth,
-                        boxHeight: 500//document.getElementById('pictureViewer').clientHeight
-                    },function(){
-
-                        JcropAPI = this;
-                        JcropAPI.animateTo([100,100,400,300]);
-
-                    });
-
-                    $('#prout').mouseout(function() {
-                        $('#cropx').val(Math.round(parseInt($('#pictureViewer').next().css('left')) * pictureRatio));
-                        $('#cropy').val(Math.round(parseInt($('#pictureViewer').next().css('top')) * pictureRatio));
-                        $('#cropw').val(Math.round(parseInt($('#pictureViewer').next().css('width')) * pictureRatio));
-                        $('#croph').val(Math.round(parseInt($('#pictureViewer').next().css('height')) * pictureRatio));
-                    });
-
-                };
-
-                $('input,text').keypress(function(event) { return event.keyCode != 13; });
-                $('input,email').keypress(function(event) { return event.keyCode != 13; });
-
-        function initialize() {
-
-            var placeId = '{{ $user->place_id }}';
-            var geocoder = new google.maps.Geocoder();
-            
-  geocoder.geocode({'placeId': placeId}, function(results, status) {
-    if (status == google.maps.GeocoderStatus.OK) {
-      if (results[0]) {
-        $('#locationListElement').html('Location: ' + results[0].formatted_address);
-        $('#pac-input').val(results[0].formatted_address);
-      }
-    }
-  });
-  var mapOptions = {
-    center: new google.maps.LatLng(-33.8688, 151.2195),
-    zoom: 13,
-  };
-  var map = new google.maps.Map(document.getElementById('map-canvas'),
-    mapOptions);
-
-  var input = /** @type {HTMLInputElement} */(
-      document.getElementById('pac-input'));
-
-  //var types = document.getElementById('type-selector');
-  //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-  //map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
-
-  var autocomplete = new google.maps.places.Autocomplete(input,
-    {
-        types: ['(cities)']
-    });
-  autocomplete.bindTo('bounds', map);
-
-  var infowindow = new google.maps.InfoWindow();
-  var marker = new google.maps.Marker({
-    map: map,
-    anchorPoint: new google.maps.Point(0, -29)
-  });
-
-  google.maps.event.addListener(autocomplete, 'place_changed', function() {
-    infowindow.close();
-    marker.setVisible(false);
-    var place = autocomplete.getPlace();
-    if (!place.geometry) {
-      window.alert("Autocomplete's returned place contains no geometry");
-      return;
-    }
-
-    // If the place has a geometry, then present it on a map.
-    if (place.geometry.viewport) {
-      map.fitBounds(place.geometry.viewport);
-    } else {
-      map.setCenter(place.geometry.location);
-      map.setZoom(17);  // Why 17? Because it looks good.
-    }
-    marker.setIcon(/** @type {google.maps.Icon} */({
-      url: place.icon,
-      size: new google.maps.Size(71, 71),
-      origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(17, 34),
-      scaledSize: new google.maps.Size(35, 35)
-    }));
-    marker.setPosition(place.geometry.location);
-    marker.setVisible(true);
-
-    var address = '';
-    if (place.address_components) {
-      address = [
-        (place.address_components[0] && place.address_components[0].short_name || ''),
-        (place.address_components[1] && place.address_components[1].short_name || ''),
-        (place.address_components[2] && place.address_components[2].short_name || '')
-      ].join(' ');
-    }
-
-    $('#placeId').val(place.place_id);
-
-    infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
-    infowindow.open(map, marker);
-  });
-
-  // Sets a listener on a radio button to change the filter type on Places
-  // Autocomplete.
-  /*function setupClickListener(id, types) {
-    var radioButton = document.getElementById(id);
-    google.maps.event.addDomListener(radioButton, 'click', function() {
-      autocomplete.setTypes(types);
-    });
-  }
-
-  setupClickListener('changetype-all', []);
-  setupClickListener('changetype-address', ['address']);
-  setupClickListener('changetype-establishment', ['establishment']);
-  setupClickListener('changetype-geocode', ['geocode']);*/
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
     </script>
+
+    <script type="text/javascript" src="{{ asset('js/crop-script.js') }}"></script>
+
 @endsection

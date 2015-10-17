@@ -42,7 +42,7 @@
                         @endif
 
                         {!! Form::open(['url' => 'orders']) !!}
-                            @include('orders._form', ['submitButtonText' => trans('strings.order10')])
+                            @include('orders._form', ['submitButtonText' => trans('strings.order10'), 'backButtonText' => trans('strings.orderBackToCart'), 'backButtonRoute' => 'view-cart'])
                         {!! Form::close() !!}
 
                         @include('errors.list')

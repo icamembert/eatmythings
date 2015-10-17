@@ -54,7 +54,7 @@
 </div>
 
 
-
+<input type="hidden" name="cropped" id="cropped" value="false" />
 <input type="hidden" name="cropx" id="cropx" value="0" />
 <input type="hidden" name="cropy" id="cropy" value="0" />
 <input type="hidden" name="cropw" id="cropw" value="0" />
@@ -64,6 +64,7 @@
 
 <div class="row">
     <div class="col-md-12">
+        <a href="{{ route('my-account') }}" class="btn btn-default">Cancel</a>
         {!! Form::submit($submitButtonText, ['class' => 'btn btn-primary pull-right']) !!}
     </div>
 </div>
@@ -71,92 +72,12 @@
 @section('footer')
     <script type="text/javascript">
 
-        var pictureRatio = 0;
-
         $('#tags_list').select2({
             placeholder: 'Choose a tag'
         });
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
 
-                reader.onload = function (e) {
-                    $('#pictureViewer')
-                            .attr('src', e.target.result);
-                            //.width(150)
-                            //.height(200);
-                    $('#pictureViewer').one('load', function() {
-                        pictureRatio = document.getElementById('pictureViewer').naturalWidth / document.getElementById('pictureViewer').clientWidth;
-                        if (document.getElementById('pictureViewer').naturalWidth < 500 || document.getElementById('pictureViewer').naturalHeight < 500) {
-                            $('#pictureViewer')
-                                    .attr('src', '');
-
-                            if (typeof JcropAPI != 'undefined')
-                                JcropAPI.destroy();
-
-                            initJcrop(pictureRatio);
-
-                            alert('Picture must be at least 500x500 pixels!');
-
-                        } else {
-
-                            if (typeof JcropAPI != 'undefined')
-                                JcropAPI.destroy();
-                            initJcrop(pictureRatio);
-
-                        }
-                    });
-                };
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-
-        function initJcrop(pictureRatio)
-				{
-
-					$('#pictureViewer').Jcrop({
-                        setSelect: [0, 0, Math.round(500 / pictureRatio), Math.round(500 / pictureRatio)],
-                        aspectRatio: 1,
-                        minSize: [Math.round(500 / pictureRatio), Math.round(500 / pictureRatio)],
-                        allowSelect: false,
-                        boxWidth: 500,//document.getElementById('pictureViewer').clientWidth,
-                        boxHeight: 500//document.getElementById('pictureViewer').clientHeight
-                    },function(){
-
-                        JcropAPI = this;
-                        JcropAPI.animateTo([100,100,400,300]);
-
-					});
-
-                    $('#prout').mouseout(function() {
-                        $('#cropx').val(Math.round(parseInt($('#pictureViewer').next().css('left')) * pictureRatio));
-                        $('#cropy').val(Math.round(parseInt($('#pictureViewer').next().css('top')) * pictureRatio));
-                        $('#cropw').val(Math.round(parseInt($('#pictureViewer').next().css('width')) * pictureRatio));
-                        $('#croph').val(Math.round(parseInt($('#pictureViewer').next().css('height')) * pictureRatio));
-                    });
-
-				};
-
-            /*$(document).on('cropstart cropmove cropend', '#pictureViewer', function(e,s,c){
-
-                alert('ddqf');
-                console.log(e,s,c);
-                // @todo: do something useful with c
-                // { x: 10, y: 10, x2: 30, y2: 30, w: 20, h: 20 }
-                // c.x, c.y, c.w, c.h, ...
-                // or access s.selectionApiMethod() or s.core.apiMethod() etc
-                // compare event type with e.type (e.g. in if conditional, switch block)
-
-            });*/
-
-        /*$('#pictureViewer').on('cropmove cropend',function(e,s,c){
-            alert(c.x);
-            $('#cropx').val(c.x);
-            $('#cropy').val(c.y);
-            $('#cropw').val(c.w);
-            $('#croph').val(c.h);
-        });*/
     </script>
+
+    <script type="text/javascript" src="{{ asset('js/crop-script.js') }}"></script>
+
 @endsection

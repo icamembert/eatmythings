@@ -68,6 +68,8 @@ class AuthController extends Controller {
         {
             return Redirect::route('home');
         }
+
+        return Redirect::action('Auth\AuthController@getLogin');
         
     }
 

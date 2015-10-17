@@ -252,7 +252,8 @@ return [
     "order6" => "At My Home",
     "order7" => "At Chef's Home",
     "order8" => "Comment:",
-    "order9" => "Back to Cart",
+    "orderBackToCart" => "Back to Cart",
+    "orderBackToProfile" => "Back to Profile",
     "order10" => "Place Order",
     "order11" => "Update Order",
 

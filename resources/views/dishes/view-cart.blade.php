@@ -43,9 +43,11 @@
                                 <div class="item">
                                     <div class="cart_img"><img src="{{ asset('/userdata/' . $item->options->chefId . '/dishes/' . $item->id . '/picture_sm.jpg') }}" width="40" alt="Dish Picture" /></div>
                                     <a href="{{ action('DishesController@show', array('dishes' => $item->options->dish, 'isBeingOrdered' => 0)) }}" class="product_name">{{ $item->name }}</a>
-                                    <a href="#" class="remove_item">X</a>
-                                    <div class="total_price"><span>{{ $item->price }}</span></div>
-                                    <div class="qty"><input type="text" value="{{ $item->qty }}" name="qty" maxlength="3" /> x {{ $item->price }}</div>
+                                    <a href="{{ action('DishesController@removeFromCart', array('dishes' => $item->options->dish)) }}" class="remove_item">X</a>
+                                    <div class="total_price"><span>{{ $item->qty * $item->price }}</span></div>
+                                        <div class="qty">{{ $item->qty }} x {{ $item->price }}</div>
+                                        <a href="{{ action('DishesController@updateCart', array('dishes' => $item->options->dish, 'sign' => 'minus')) }}"><i class="fa fa-minus"></i></a>
+                                        <a href="{{ action('DishesController@updateCart', array('dishes' => $item->options->dish, 'sign' => 'plus')) }}"><i class="fa fa-plus"></i></a>
                                     <div class="clearfix"></div>
                                 </div>
                                 <!-- /cart item -->

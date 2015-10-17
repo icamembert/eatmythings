@@ -234,9 +234,6 @@
             $('#advancedSearchButton').show();
         });
 
-        var map;
-        var infoWindow;
-
         function initializeAutocomplete() {
 
         	var input = document.getElementById('pac-input');
