@@ -110,7 +110,7 @@ class UsersController extends Controller {
         {
         	$picture = Image::make($request->file('picture'));
 
-	        $destinationPath = '../public/userdata/' . Auth::user()->id;
+	        $destinationPath = 'public/userdata/' . Auth::user()->id;
 	        
 	        $picture->save($destinationPath . '/profile_picture.jpg');
 

@@ -40,11 +40,9 @@ class CropImage extends Command implements SelfHandling, ShouldBeQueued {
 		$cropx = $cropObject['cropx'];
 		$cropy = $cropObject['cropy'];
 
-		Log::info('blah blahhhhh  ' . getcwd());
+		$picture = Image::make($destinationPath . '/profile_picture.jpg');
 
-		//$picture = Image::make($destinationPath . '/profile_picture.jpg');
-
-		/*if ( ! File::exists($destinationPath))
+		if ( ! File::exists($destinationPath))
         {
         	File::makeDirectory($destinationPath, 0777, true);
         }
@@ -56,7 +54,7 @@ class CropImage extends Command implements SelfHandling, ShouldBeQueued {
         $croppedPictureMedium->save($destinationPath . '/profile_picture_md.jpg');
 
         $croppedPictureSmall = $croppedPictureMedium->resize(100, 100);
-        $croppedPictureSmall->save($destinationPath . '/profile_picture_sm.jpg');*/
+        $croppedPictureSmall->save($destinationPath . '/profile_picture_sm.jpg');
 	}
 
 }
