@@ -40,9 +40,9 @@ class CropImage extends Command implements SelfHandling, ShouldBeQueued {
 		$cropx = $cropObject['cropx'];
 		$cropy = $cropObject['cropy'];
 
-		Log::info('' . getcwd());
+		Log::info('blah blahhhhh  ' . getcwd());
 
-		$picture = Image::make($destinationPath . '/profile_picture.jpg');
+		//$picture = Image::make($destinationPath . '/profile_picture.jpg');
 
 		/*if ( ! File::exists($destinationPath))
         {
