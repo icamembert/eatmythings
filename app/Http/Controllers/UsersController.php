@@ -115,7 +115,7 @@ class UsersController extends Controller {
 	        if ( ! File::exists($destinationPath))
 	        	File::makeDirectory($destinationPath, 0777, true);
 
-	        $picture->save($destinationPath . '/profile_picture.jpg');
+	        //$picture->save($destinationPath . '/profile_picture.jpg');
 
 	        $cropObject = [
 				'destinationPath' => $destinationPath,
