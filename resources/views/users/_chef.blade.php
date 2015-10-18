@@ -167,7 +167,7 @@
         <form class="white-row" method="post" action="shop-cc-pay.html">
             <p>
                 @if ($user->isMe())
-                    {{ trans('strings.profileChefReviews2') }}
+                    {!! trans('strings.profileChefReviews2') !!}
                 @else
                     {!! Lang::get('strings.profileChefReviews3', ['userName' => $user->name]) !!}
                 @endif

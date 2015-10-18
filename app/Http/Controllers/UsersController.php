@@ -108,7 +108,7 @@ class UsersController extends Controller {
 
         if ($request->input('cropped') === 'true')
         {
-        	$picture = Image::make($request->file('picture'));
+        	//$picture = Image::make($request->file('picture'));
 
 	        $destinationPath = 'userdata/' . Auth::user()->id;
 	        
