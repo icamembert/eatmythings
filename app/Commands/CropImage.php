@@ -33,6 +33,8 @@ class CropImage extends Command implements SelfHandling, ShouldBeQueued {
 	 */
 	public function handle()
 	{
+		Log::info('handle called');
+
 		$cropObject = $this->cropObject;
 		$destinationPath = $cropObject['destinationPath'];
 		$cropw = $cropObject['cropw'];
@@ -53,7 +55,7 @@ class CropImage extends Command implements SelfHandling, ShouldBeQueued {
         $croppedPicture->save('eatmythings.com/public/' . $destinationPath . '/profile_picture.jpg');
 
         Log::info('picture saved');
-        
+
         $croppedPictureMedium = $croppedPicture->resize(300, 300);
         $croppedPictureMedium->save('eatmythings.com/public/' . $destinationPath . '/profile_picture_md.jpg');
 
