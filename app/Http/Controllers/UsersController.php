@@ -105,16 +105,16 @@ class UsersController extends Controller {
 	 */
 	public function update(User $user, UserRequest $request)
 	{
-        $user->update($request->all());
+        //$user->update($request->all());
 
         if ($request->input('cropped') === 'true')
         {
-        	$picture = Image::make($request->file('picture'));
+        	/*$picture = Image::make($request->file('picture'));
 
 	        $destinationPath = 'userdata/' . Auth::user()->id;
 	        
 	        if ( ! File::exists($destinationPath))
-	        	File::makeDirectory($destinationPath, 0777, true);
+	        	File::makeDirectory($destinationPath, 0777, true);*/
 
         }
         
