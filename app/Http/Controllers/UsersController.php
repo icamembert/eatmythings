@@ -103,7 +103,7 @@ class UsersController extends Controller {
      * @param  UserRequest $request
 	 * @return Response
 	 */
-	public function update(User $user, UserRequest $request)
+	public function update(User $user)
 	{
         //$user->update($request->all());
 
