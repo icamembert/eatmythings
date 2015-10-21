@@ -116,17 +116,6 @@ class UsersController extends Controller {
 	        if ( ! File::exists($destinationPath))
 	        	File::makeDirectory($destinationPath, 0777, true);
 
-	        $picture->save($destinationPath . '/profile_picture.jpg');
-
-	        $cropObject = [
-				'destinationPath' => $destinationPath,
-				'cropw' => (int) $request->input('cropw'),
-				'croph' => (int) $request->input('croph'),
-				'cropx' => (int) $request->input('cropx'),
-				'cropy' => (int) $request->input('cropy'),
-			];
-
-			$this->dispatch(new CropImage($cropObject));
         }
         
         flash()->success('Your profile has been updated!');
@@ -148,11 +137,11 @@ class UsersController extends Controller {
 			$image = Image::make($imagePath);
 
 	        $image = $image->resize(300, 300);
-	        $imagePath = str_replace('.jpg', '_md_temp.jpg', $imagePath);
+	        $imagePath = str_replace('.jpg', '_md.jpg', $imagePath);
 	        $image->save($imagePath);
 
 	        $image = $image->resize(100, 100);
-	      	$imagePath = str_replace('_md.jpg', '_sm_temp.jpg', $imagePath);
+	      	$imagePath = str_replace('_md.jpg', '_sm.jpg', $imagePath);
 	      	$image->save($imagePath);
 	        
 			return 1;

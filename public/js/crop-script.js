@@ -115,7 +115,7 @@ function initJcrop(pictureRatio, pictureClientWidth, pictureClientHeight) {
                 url: 'users/crop',
                 data: {
                     base64Image: dataURL,
-                    imagePath: 'userdata/' + userId + '/profile_picture_temp.jpg'
+                    imagePath: 'userdata/' + userId + '/profile_picture.jpg'
                 },
                 dataType: 'JSON',
                 success: function() {
