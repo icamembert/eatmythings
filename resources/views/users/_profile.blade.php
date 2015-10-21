@@ -50,6 +50,16 @@
                     {!! Form::model($user, ['id' => 'profileForm', 'method' => 'PATCH', 'action' => ['UsersController@update', $user->id], 'files' => true]) !!}
                         @include('users._form', ['submitButtonText' => trans('strings.profileSummary13')])
                     {!! Form::close() !!}
+                    <!-- Picture Form Input -->
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            {!! Form::label('picture', trans('strings.profileSummary11')) !!}
+            {!! Form::file('picture', ['class' => '', 'onChange' => 'readURL(this)']) !!}
+        </div>
+    </div>
+</div>
                 </div>
             </div>
         @endif

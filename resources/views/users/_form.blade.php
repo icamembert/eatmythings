@@ -29,16 +29,7 @@
     </div>
 </div>
 
-<!-- Picture Form Input -->
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="form-group">
-            {!! Form::label('picture', trans('strings.profileSummary11')) !!}
-            {!! Form::file('picture', ['class' => '', 'onChange' => 'readURL(this)']) !!}
-        </div>
-    </div>
-</div>
 
 <input type="hidden" name="cropped" id="cropped" value="false" />
 <input type="hidden" name="cropx" id="cropx" value="0" />
