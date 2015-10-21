@@ -7,6 +7,7 @@ use App\User;
 use App\Order;
 use Illuminate\Support\Facades\Auth;
 use Request;
+use Response;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
@@ -108,14 +109,14 @@ class UsersController extends Controller {
 
         if ($request->input('cropped') === 'true')
         {
-        	//$picture = Image::make($request->file('picture'));
+        	$picture = Image::make($request->file('picture'));
 
 	        $destinationPath = 'userdata/' . Auth::user()->id;
 	        
 	        if ( ! File::exists($destinationPath))
 	        	File::makeDirectory($destinationPath, 0777, true);
 
-	        //$picture->save($destinationPath . '/profile_picture.jpg');
+	        $picture->save($destinationPath . '/profile_picture.jpg');
 
 	        $cropObject = [
 				'destinationPath' => $destinationPath,
@@ -128,10 +129,34 @@ class UsersController extends Controller {
 			$this->dispatch(new CropImage($cropObject));
         }
         
-        
         flash()->success('Your profile has been updated!');
 
         return redirect()->intended('/my-account')->with('flash_message', 'Your profile has been updated!');
+	}
+
+	public function crop()
+	{
+		if (Request::ajax())
+		{
+			$base64Image = Request::input('base64Image');
+			$imagePath = Request::input('imagePath');
+			$base64Image = str_replace('data:image/jpeg;base64', '', $base64Image);
+			$base64Image = str_replace(' ', '+', $base64Image);
+			$image = base64_decode($base64Image);
+			file_put_contents($imagePath, $image);
+			
+			$image = Image::make($imagePath);
+
+	        $image = $image->resize(300, 300);
+	        $imagePath = str_replace('.jpg', '_md_temp.jpg', $imagePath);
+	        $image->save($imagePath);
+
+	        $image = $image->resize(100, 100);
+	      	$imagePath = str_replace('_md.jpg', '_sm_temp.jpg', $imagePath);
+	      	$image->save($imagePath);
+	        
+			return 1;
+		}
 	}
 
 	/**

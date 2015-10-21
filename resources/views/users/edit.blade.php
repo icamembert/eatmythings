@@ -204,6 +204,8 @@
         }
 
         google.maps.event.addDomListener(window, 'load', initializeAutocomplete);
+        
+        var userId = '{{ Auth::user()->id }}';
 
     </script>
 

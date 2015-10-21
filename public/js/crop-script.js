@@ -57,24 +57,72 @@ function initJcrop(pictureRatio, pictureClientWidth, pictureClientHeight) {
         minSize: [Math.round(500 / pictureRatio), Math.round(500 / pictureRatio)],
         allowSelect: false,
         boxWidth: pictureClientWidth,
-        boxHeight: pictureClientHeight
+        boxHeight: pictureClientHeight,
+        onSelect: updateCanvas
     }, function() {
 
         JcropAPI = this;
         JcropAPI.animateTo([100,100,400,300]);
 
-        $('#cropx').val(Math.round(parseInt($('#JcropPicture').next().css('left')) * pictureRatio));
+        /*$('#cropx').val(Math.round(parseInt($('#JcropPicture').next().css('left')) * pictureRatio));
         $('#cropy').val(Math.round(parseInt($('#JcropPicture').next().css('top')) * pictureRatio));
         $('#cropw').val(Math.round(parseInt($('#JcropPicture').next().css('width')) * pictureRatio));
-        $('#croph').val(Math.round(parseInt($('#JcropPicture').next().css('height')) * pictureRatio));
+        $('#croph').val(Math.round(parseInt($('#JcropPicture').next().css('height')) * pictureRatio));*/
 
 	});
 
-    $('#JcropContainer').mouseout(function() {
-        $('#cropx').val(Math.round(parseInt($('#JcropPicture').next().css('left')) * pictureRatio));
-        $('#cropy').val(Math.round(parseInt($('#JcropPicture').next().css('top')) * pictureRatio));
-        $('#cropw').val(Math.round(parseInt($('#JcropPicture').next().css('width')) * pictureRatio));
-        $('#croph').val(Math.round(parseInt($('#JcropPicture').next().css('height')) * pictureRatio));
-    });
+    function updateCanvas(c) {
+        var JcropPicture = $('#JcropPicture')[0];
+        var JcropCanvas = $('#JcropCanvas')[0];
+        $('#JcropCanvas').attr('width', c.w);
+        $('#JcropCanvas').attr('height', c.h);
+        var context = JcropCanvas.getContext('2d');
+        context.drawImage(JcropPicture,
+            c.x,
+            c.y,
+            c.w,
+            c.h,
+            0,
+            0,
+            c.w,
+            c.h
+
+            /*Math.round(parseInt($('#JcropPicture').next().css('left')) * pictureRatio), 
+            Math.round(parseInt($('#JcropPicture').next().css('top')) * pictureRatio), 
+            Math.round(parseInt($('#JcropPicture').next().css('width')) * pictureRatio), 
+            Math.round(parseInt($('#JcropPicture').next().css('height')) * pictureRatio), 
+            Math.round(parseInt($('#JcropCanvas').next().css('left')) * pictureRatio), 
+            Math.round(parseInt($('#JcropCanvas').next().css('top')) * pictureRatio), 
+            Math.round(parseInt($('#JcropCanvas').next().css('width')) * pictureRatio), 
+            Math.round(parseInt($('#JcropCanvas').next().css('height')) * pictureRatio)*/
+        );
+        $('#JcropContainer').mouseout(function() {
+           /*$('#cropx').val(Math.round(parseInt($('#JcropPicture').next().css('left')) * pictureRatio));
+            $('#cropy').val(Math.round(parseInt($('#JcropPicture').next().css('top')) * pictureRatio));
+            $('#cropw').val(Math.round(parseInt($('#JcropPicture').next().css('width')) * pictureRatio));
+            $('#croph').val(Math.round(parseInt($('#JcropPicture').next().css('height')) * pictureRatio));*/
+
+            var dataURL = JcropCanvas.toDataURL('image/jpeg');
+            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: 'users/crop',
+                data: {
+                    base64Image: dataURL,
+                    imagePath: 'userdata/' + userId + '/profile_picture_temp.jpg'
+                },
+                dataType: 'JSON',
+                success: function() {
+                }
+            });
+            
+        });
+    }
 
 };

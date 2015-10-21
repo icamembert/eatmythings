@@ -44,6 +44,7 @@
                 @endif
                 <div id="JcropContainer" class="col-md-6" style="padding-top: 15px;">
                         <img id="JcropPicture" class="img-responsive" src="{{ asset($profilePicturePath) }}" alt=""/>
+                        <canvas id="JcropCanvas" width="2000" height="2000" style="display: none;"></canvas>
                 </div>
                 <div class="col-md-6">
                     {!! Form::model($user, ['id' => 'profileForm', 'method' => 'PATCH', 'action' => ['UsersController@update', $user->id], 'files' => true]) !!}

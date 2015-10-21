@@ -29,6 +29,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
 	Route::put('users/{users}', 'UsersController@update');
 	Route::patch('users/{users}', 'UsersController@update');
 	Route::delete('users/{users}', 'UsersController@destroy');
+	Route::post('users/crop', 'UsersController@crop');
 	
 	//Route::get('dishes', 'DishesController@index');
 	//Route::get('dishes/create', 'DishesController@create');
