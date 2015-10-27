@@ -216,13 +216,18 @@
                 //if(!valid) {
                     
                 //}
+                console.log(imageUploadFinished);
+
                 if (imageUploadFinished == false) {
                     e.preventDefault();
                     $('#profileEdit').css('visibility', 'hidden');
                     $('#imageCropButtonsPanel').css('visibility', 'visible');
-                    $(document).ajaxStop(function() {
-                        $(this).unbind('submit').submit();
-                    })
+                    var intervalId = setInterval(function() {
+                        if (imageUploadFinished) {
+                            clearInterval(intervalId);
+                            $('form').unbind('submit').submit();
+                        }        
+                    }, 100);
                 }
 
             });
