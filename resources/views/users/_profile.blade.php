@@ -42,25 +42,44 @@
                                     </ul>
                         </div>
                 @endif
-                <div id="JcropContainer" class="col-md-6" style="padding-top: 15px;">
-                        <img id="JcropPicture" class="img-responsive" src="{{ asset($profilePicturePath) }}" alt=""/>
-                        <canvas id="JcropCanvas" width="2000" height="2000" style="display: none;"></canvas>
+                <div class="col-md-6">
+                    
+                    <div class="row">
+                        <div id="JcropContainer" class="col-md-12" style="padding-top: 15px;">
+                                <img id="JcropPicture" class="img-responsive" src="{{ asset($profilePicturePath) }}" alt=""/>
+                                <canvas id="JcropCanvas" width="2000" height="2000" style="display: none;"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Picture Form Input -->
+
+                    <div id="imageChoosePanel" class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                {!! Form::label('picture', trans('strings.profileSummary11')) !!}
+                                {!! Form::file('picture', ['class' => '', 'onChange' => 'readURL(this)']) !!}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="imageCropButtonsPanel" class="row loading-progress" style="display: none; padding-top: 15px">
+                        <div class="col-md-6">
+                            <a id="imageCropCancelButton" class="btn btn-primary">Cancel</a>
+                        </div>
+                        <div class="col-md-6">
+                            <a id="imageCropButton" class="btn btn-primary pull-right">Crop!</a>
+                        </div>
+                    </div>
+
                 </div>
+                
                 <div class="col-md-6">
                     {!! Form::model($user, ['id' => 'profileForm', 'method' => 'PATCH', 'action' => ['UsersController@update', $user->id], 'files' => true]) !!}
                         @include('users._form', ['submitButtonText' => trans('strings.profileSummary13')])
                     {!! Form::close() !!}
-                    <!-- Picture Form Input -->
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="form-group">
-            {!! Form::label('picture', trans('strings.profileSummary11')) !!}
-            {!! Form::file('picture', ['class' => '', 'onChange' => 'readURL(this)']) !!}
-        </div>
-    </div>
-</div>
                 </div>
+
             </div>
         @endif
     </div>

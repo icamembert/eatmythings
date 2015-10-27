@@ -32,7 +32,7 @@ function readURL(input) {
 
                     if (typeof JcropAPI != 'undefined')
                         JcropAPI.destroy();
-                    initJcrop(pictureRatio, pictureClientWidth, pictureClientHeight);
+                    initJcrop(pictureRatio, pictureClientWidth, pictureClientHeight, input);
 
                 }
 
@@ -47,9 +47,17 @@ function readURL(input) {
 }
 
 
-function initJcrop(pictureRatio, pictureClientWidth, pictureClientHeight) {
+function initJcrop(pictureRatio, pictureClientWidth, pictureClientHeight, input) {
 
-    $('#cropped').val('true');
+    $('#imageChoosePanel').hide(400);
+    $('#imageCropButtonsPanel').show(400);
+    $('#imageCropCancelButton').click(function() {
+        $('#imageCropButtonsPanel').hide(400);
+        $('#imageChoosePanel').show(400);
+        if (typeof JcropAPI != 'undefined')
+            JcropAPI.destroy();
+        $('#JcropPicture').replaceWith("<img id='JcropPicture' class='img-responsive' src=" + profilePicturePath + " alt=''/>");
+    });
 
 	$('#JcropPicture').Jcrop({
         setSelect: [0, 0, Math.round(500 / pictureRatio), Math.round(500 / pictureRatio)],
@@ -58,6 +66,7 @@ function initJcrop(pictureRatio, pictureClientWidth, pictureClientHeight) {
         allowSelect: false,
         boxWidth: pictureClientWidth,
         boxHeight: pictureClientHeight,
+        onChange: updateCanvas,
         onSelect: updateCanvas
     }, function() {
 
@@ -80,8 +89,8 @@ function initJcrop(pictureRatio, pictureClientWidth, pictureClientHeight) {
         context.drawImage(JcropPicture,
             c.x,
             c.y,
-            c.w,
-            c.h,
+            c.w - 1,
+            c.h - 1,
             0,
             0,
             c.w,
@@ -96,31 +105,77 @@ function initJcrop(pictureRatio, pictureClientWidth, pictureClientHeight) {
             Math.round(parseInt($('#JcropCanvas').next().css('width')) * pictureRatio), 
             Math.round(parseInt($('#JcropCanvas').next().css('height')) * pictureRatio)*/
         );
-        $('#JcropContainer').mouseout(function() {
+        $('#imageCropButton').click(function() {
+
+            $('#cropped').val('true');
            /*$('#cropx').val(Math.round(parseInt($('#JcropPicture').next().css('left')) * pictureRatio));
             $('#cropy').val(Math.round(parseInt($('#JcropPicture').next().css('top')) * pictureRatio));
             $('#cropw').val(Math.round(parseInt($('#JcropPicture').next().css('width')) * pictureRatio));
             $('#croph').val(Math.round(parseInt($('#JcropPicture').next().css('height')) * pictureRatio));*/
 
+            var imageByteSize = input.files[0].size;
             var dataURL = JcropCanvas.toDataURL('image/jpeg');
-            
+            var base64ImageByteSize = dataURL.length;
+            var formData = new FormData();
+            formData.append('image', input.files[0]);
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
 
-            $.ajax({
-                type: 'POST',
-                url: 'users/crop',
-                data: {
-                    base64Image: dataURL,
-                    imagePath: 'userdata/' + userId + '/profile_picture.jpg'
-                },
-                dataType: 'JSON',
-                success: function() {
-                }
-            });
+            if (base64ImageByteSize <= imageByteSize) {
+                var progress = $(".loading-progress").progressTimer({
+                    timeLimit: 60    
+                });
+                $.ajax({
+                    /*xhr: function() {
+                        
+                        var xhr = new window.XMLHttpRequest();
+                        
+                        xhr.upload.addEventListener('progress', function(e) {
+                            if (e.lengthComputable) {
+                                var percentageComplete = e.loaded / e.total * 100 + '%';
+                                console.log(percentageComplete);
+                            }
+                        }, false);
+                        
+                        return xhr;
+
+                    },*/
+                    type: 'POST',
+                    url: 'users/crop',
+                    data: {
+                        alreadyCropped: true,
+                        base64Image: dataURL,
+                        type: 'user'
+                    },
+                    dataType: 'JSON'
+                }).done(function() {
+                    progress.progressTimer('complete');
+                    imageUploadFinished = true;
+                });
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: 'users/crop',
+                    data: {
+                        alreadyCropped: false,
+                        image: formData,
+                        cropX: c.x * pictureRatio,
+                        cropY: c.y * pictureRatio,
+                        cropW: c.w * pictureRatio,
+                        cropH: c.h * pictureRatio,
+                        type: 'user'
+                    },
+                    dataType: 'JSON',
+                    processData: false,
+                    contentType: false,
+                    success: function() {
+                    }
+                });
+            }
             
         });
     }

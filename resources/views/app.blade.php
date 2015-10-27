@@ -70,6 +70,7 @@
 <script src="{{ asset('js/Jcrop.js') }}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places,geometry"></script>
 <script src="{{ asset('js/bootstrap-rating.min.js') }}"></script>
+<script src="{{ asset('js/jquery.progressTimer.js') }}"></script>
 
 @yield('footer')
 

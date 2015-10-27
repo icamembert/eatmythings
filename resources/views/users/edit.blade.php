@@ -106,6 +106,9 @@
 
 @section('afterScripts')
     <script>
+
+        var profilePicturePath = '{{ asset($profilePicturePath) }}';
+
         $('#editProfileButton').click(function() {
             $(this).hide();
             $('#profileShow').hide(400);
@@ -120,7 +123,7 @@
             $('#cropped').val('false');
             if (typeof JcropAPI != 'undefined')
                 JcropAPI.destroy();
-            $('#JcropPicture').replaceWith("<img id='JcropPicture' class='img-responsive' src='{{ asset($profilePicturePath) }}'' alt=''/>");
+            $('#JcropPicture').replaceWith("<img id='JcropPicture' class='img-responsive' src=" + profilePicturePath + " alt=''/>");
         });
 
         $('input,text').keypress(function(event) { return event.keyCode != 13; });
@@ -204,8 +207,26 @@
         }
 
         google.maps.event.addDomListener(window, 'load', initializeAutocomplete);
+
+        var imageUploadFinished = false;
         
-        var userId = '{{ Auth::user()->id }}';
+        $(document).ready(function() {
+            $('form').on('submit', function(e){
+                
+                //if(!valid) {
+                    
+                //}
+                if (imageUploadFinished == false) {
+                    e.preventDefault();
+                    $('#profileEdit').css('visibility', 'hidden');
+                    $('#imageCropButtonsPanel').css('visibility', 'visible');
+                    $(document).ajaxStop(function() {
+                        $(this).unbind('submit').submit();
+                    })
+                }
+
+            });
+        });
 
     </script>
 

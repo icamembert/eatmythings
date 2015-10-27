@@ -127,15 +127,27 @@ class UsersController extends Controller {
 	{
 		if (Request::ajax())
 		{
-			$base64Image = Request::input('base64Image');
-			$imagePath = Request::input('imagePath');
-			$base64Image = str_replace('data:image/jpeg;base64', '', $base64Image);
-			$base64Image = str_replace(' ', '+', $base64Image);
-			$image = base64_decode($base64Image);
-			file_put_contents($imagePath, $image);
+			$alreadyCropped = Request::input('alreadyCropped');
 			
-			$image = Image::make($imagePath);
-
+			if ($alreadyCropped) {
+				$base64Image = Request::input('base64Image');
+				$imagePath = 'userdata/' . Auth::user()->id . '/profile_picture.jpg';
+				$base64Image = str_replace('data:image/jpeg;base64', '', $base64Image);
+				$base64Image = str_replace(' ', '+', $base64Image);
+				$image = base64_decode($base64Image);
+				file_put_contents($imagePath, $image);
+				$image = Image::make($imagePath);
+			} else {
+				$image = Image::make(Request::input('image'));
+				$imagePath = 'userdata/' . Auth::user()->id . '/profile_picture.jpg';
+				$cropX = Request::input('cropX');
+				$cropY = Request::input('cropY');
+				$cropW = Request::input('cropW');
+				$cropH = Request::input('cropH');
+				$image = $image->crop($cropX, $cropY, $cropW, $cropH);
+				$image->save($imagePath);
+			}
+			
 	        $image = $image->resize(300, 300);
 	        $imagePath = str_replace('.jpg', '_md.jpg', $imagePath);
 	        $image->save($imagePath);
